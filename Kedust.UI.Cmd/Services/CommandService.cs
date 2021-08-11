@@ -6,7 +6,7 @@ namespace Kedust.UI.Cmd.Services
 {
     public class CommandService
     {
-        public Task StartAsync()
+        public void Start()
         {
             while (true)
             {
@@ -18,11 +18,11 @@ namespace Kedust.UI.Cmd.Services
                 switch (prefix)
                 {
                     case "init":
+                        Console.WriteLine("init");
                         break;
                 }
                 
             }
-            return Task.CompletedTask;
         }
     }
 }

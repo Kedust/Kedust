@@ -25,13 +25,13 @@ namespace Kedust.UI.Cmd
             Configuration = builder.Build();
         }
 
-        private async Task RunAsync()
+        private Task RunAsync()
         {
             var services = new ServiceCollection();
             ConfigureServices(services);
             var provider = services.BuildServiceProvider();
-            await provider.GetRequiredService<CommandService>().StartAsync();
-            await Task.Delay(-1);
+            provider.GetRequiredService<CommandService>().Start();
+            return Task.CompletedTask;
         }
 
         private void ConfigureServices(IServiceCollection services)
