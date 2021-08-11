@@ -6,7 +6,6 @@ namespace Kedust.Data.Dal
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<SqLiteBaseRepository>();
         }
     }
 }

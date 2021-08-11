@@ -6,11 +6,6 @@ namespace Kedust.UI.Cmd.Services
 {
     public class CommandService
     {
-        private readonly Lazy<SqLiteBaseRepository> _sqLiteBaseRepository;
-        public CommandService(Lazy<SqLiteBaseRepository> sqLiteBaseRepository)
-        {
-            _sqLiteBaseRepository = sqLiteBaseRepository;
-        }
         public Task StartAsync()
         {
             while (true)
@@ -23,7 +18,6 @@ namespace Kedust.UI.Cmd.Services
                 switch (prefix)
                 {
                     case "init":
-                        _sqLiteBaseRepository.Value.CreateDatabase();
                         break;
                 }
                 
