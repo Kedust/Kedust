@@ -2,9 +2,9 @@
 
 namespace Kedust.Data.Domain
 {
-    public class Menu
+    public class Menu : IDbLiteEntity<int>
     {
-        public ICollection<MenuItemGroup> MenuItemGroups { get; set; }
-        public string Valuta { get; set; }
+        public int Id { get; set; }
+        public ICollection<MenuItem> MenuItems { get; set; }
     }
 }
