@@ -1,6 +1,6 @@
 ﻿namespace Kedust.Data.Domain
 {
-    public class OrderItem: IDbLiteEntity<int>
+    public class OrderItem
     {
         public int Id { get; set; }
         public MenuItem MenuItem { get; set; }

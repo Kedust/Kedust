@@ -17,7 +17,7 @@ namespace Kedust.UI.Cmd.Services
 
                 switch (prefix)
                 {
-                    case "init":
+                    case "Menu":
                         Console.WriteLine("init");
                         break;
                 }

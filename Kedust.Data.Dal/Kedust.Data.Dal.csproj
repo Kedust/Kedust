@@ -5,12 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Dapper" Version="2.0.90" />
-      <PackageReference Include="LiteDB" Version="5.0.11" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-      <PackageReference Include="System.Data.SQLite.Core" Version="1.0.114.3" />
     </ItemGroup>
 
     <ItemGroup>

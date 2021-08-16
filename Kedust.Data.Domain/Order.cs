@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Kedust.Data.Domain
 {
-    public class Order: IDbLiteEntity<int>
+    public class Order
     {
         public int Id { get; set; }
         public DateTime TimeOrderPlaced { get; set; }
