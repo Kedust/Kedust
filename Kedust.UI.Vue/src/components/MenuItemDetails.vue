@@ -1,15 +1,14 @@
 <template>
   <div class="page">
-  <div>{{id}}</div>
-  <router-link to="/Item" :id="10">test</router-link>
-  </div>
+    <h1>{{name}}</h1>
+<!--    <h1>Menuitem : {{name}}</h1>-->
+</div>
 </template>
 
 <script>
 export default {
-  name: 'MenuItem',
+  name: 'MenuItemDetails',
   props: {
-    id:Number,
     item: {
       id: Number,
       name: String,
@@ -20,5 +19,5 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 </style>

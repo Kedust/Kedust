@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Menu from "@/components/Menu";
-import MenuItem from "@/components/MenuItem";
+import MenuItemDetails from "@/components/MenuItemDetails";
 import 'animate.css';
 
 const router = createRouter({
@@ -15,11 +15,8 @@ const router = createRouter({
             }
         },
         {
-            path:'/Item',
-            component:MenuItem,
-            props:{
-                name: 'test'
-            },
+            path:'/Item/:id',
+            component:MenuItemDetails,
             meta:{
                 enterClass:"animate__animated animate__fadeInRightBig",
                 leaveClass:"animate__animated animate__fadeOutLeftBig"
