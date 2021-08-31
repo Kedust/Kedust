@@ -1,28 +1,35 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 import Menu from "@/components/Menu";
-import MenuItemDetails from "@/components/MenuItemDetails";
-import 'animate.css';
+import OrderLine from "@/components/OrderLine";
 
-const router = createRouter({
-    history: createWebHistory(),
-    routes:[
-        {
-            path:'/',
-            component:Menu,
-            meta:{
-                enterClass:"animate__animated animate__fadeInLeftBig",
-                leaveClass:"animate__animated animate__fadeOutRightBig"
-            }
-        },
-        {
-            path:'/Item/:id',
-            component:MenuItemDetails,
-            meta:{
-                enterClass:"animate__animated animate__fadeInRightBig",
-                leaveClass:"animate__animated animate__fadeOutLeftBig"
-            }
+Vue.use(VueRouter);
+
+const routes = [
+    {
+        name: 'Menu',
+        path: '/',
+        component: Menu,
+        meta: {
+            enterClass: "animate__animated animate__fadeIn animate__faster",
+            leaveClass: "animate__animated animate__fadeOut animate__faster"
         }
-    ]
-});
+    },
+    {
+        name: 'OrderItem',
+        path: '/OrderItem/:id',
+        component: OrderLine,
+        meta: {
+            enterClass: "animate__animated animate__fadeIn animate__faster",
+            leaveClass: "animate__animated animate__fadeOut animate__faster"
+        }
+    }
+];
+
+const router = new VueRouter({
+    mode:'history',
+    base: process.env.BASE_URL,
+    routes
+})
 
 export default router;
