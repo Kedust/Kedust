@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Menu from "@/components/Menu";
-import OrderLine from "@/components/OrderLine";
+import Menu from "@/views/Menu";
+import OrderLine from "@/views/MenuItemDetails";
+import ShoppingCart from "@/views/OrderOverview";
+import OrderConfirmation from "@/views/OrderConfirmation";
 
 Vue.use(VueRouter);
 
@@ -9,20 +11,22 @@ const routes = [
     {
         name: 'Menu',
         path: '/',
-        component: Menu,
-        meta: {
-            enterClass: "animate__animated animate__fadeIn animate__faster",
-            leaveClass: "animate__animated animate__fadeOut animate__faster"
-        }
+        component: Menu
     },
     {
         name: 'OrderItem',
-        path: '/OrderItem/:id',
-        component: OrderLine,
-        meta: {
-            enterClass: "animate__animated animate__fadeIn animate__faster",
-            leaveClass: "animate__animated animate__fadeOut animate__faster"
-        }
+        path: '/OrderItem',
+        component: OrderLine
+    },
+    {
+        name: 'OrderOverview',
+        path: '/OrderOverview',
+        component: ShoppingCart
+    },
+    {
+        name: 'OrderConfirmation',
+        path: '/OrderConfirmation',
+        component: OrderConfirmation
     }
 ];
 

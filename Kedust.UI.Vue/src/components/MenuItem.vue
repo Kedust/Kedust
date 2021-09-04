@@ -1,18 +1,19 @@
 <template>
-  <router-link class="menu-item z-depth-1-half" :to="{ name: 'OrderItem', params: { id: item.id }}" tag="div">
-
+  <div class="menu-item border" @click="selectMenuItem(item)">
     <div class="flex-container">
       <span class="name">{{ item.name }}</span>
       <span class="price">{{ item.price.toFixed(2) }}</span>
     </div>
-    <div>
+    <div class="flex-container">
       <span class="description">{{ item.description }}</span>
+      <span class="count" v-if="item.count > 0">{{ item.count }} x</span>
     </div>
-
-  </router-link>
+  </div>
 </template>
 
 <script>
+
+
 export default {
   name: 'MenuItem',
   props: {
@@ -22,6 +23,12 @@ export default {
       name: String,
       price: Number,
       description: String
+    }
+  },
+  methods: {
+    selectMenuItem(item){
+      this.$store.commit('setCurrentMenuItem',item)
+      this.$router.push({name:'OrderItem'})
     }
   }
 }
@@ -36,5 +43,14 @@ export default {
 .menu-item {
   margin-bottom: 1rem;
   padding: 1rem;
+}
+
+.name{
+  font-weight: bold;
+}
+
+.count{
+  font-weight: bold;
+  color: #f0750f;
 }
 </style>
