@@ -1,9 +1,9 @@
 <template>
   <div class="page">
 
-    <div class="button back"><i class="material-icons">arrow_back</i></div>
+    <div class="button back" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
 
-    <img class="picture" src="https://via.placeholder.com/150"/>
+    <img class="picture" :src="currentMenuItem.image" :alt="currentMenuItem.name"/>
 
     <div>{{ currentMenuItem.name }}</div>
     <div>{{ currentMenuItem.description }}</div>
@@ -76,7 +76,8 @@ export default {
       id: Number,
       name: String,
       price: Number,
-      description: String
+      description: String,
+      image : String
     }
   },
   computed: {

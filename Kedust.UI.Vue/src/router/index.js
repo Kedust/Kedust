@@ -4,6 +4,7 @@ import Menu from "@/views/Menu";
 import OrderLine from "@/views/MenuItemDetails";
 import ShoppingCart from "@/views/OrderOverview";
 import OrderConfirmation from "@/views/OrderConfirmation";
+import Admin_Menu from "@/views/Admin/Admin_Menu";
 
 Vue.use(VueRouter);
 
@@ -27,7 +28,13 @@ const routes = [
         name: 'OrderConfirmation',
         path: '/OrderConfirmation',
         component: OrderConfirmation
-    }
+    },
+    {
+        name: 'AdminMenu',
+        path: '/Admin',
+        component: Admin_Menu
+    },
+
 ];
 
 const router = new VueRouter({

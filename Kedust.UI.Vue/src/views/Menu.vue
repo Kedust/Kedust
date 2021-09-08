@@ -28,7 +28,7 @@ export default {
       itemCount: "getOrderCount"
     })
   },
-  components: {ShoppingCartButton, MenuItem}
+  components: {MenuItem, ShoppingCartButton}
 }
 </script>
 
