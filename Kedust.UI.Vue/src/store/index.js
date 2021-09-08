@@ -62,12 +62,15 @@ const store = new Vuex.Store({
 
         },
         async Send(context) {
-            return new Promise((resolve) => {
-                console.log(JSON.stringify(context.getters.getOrderItems));
-                context.dispatch('fetchMenu')
-                resolve()
-
+            const response = await fetch("https://192.168.0.160:4000/Order", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(context.getters.getOrderItems)
             });
+
+            return response.status === 200;
 
         }
     },
@@ -76,12 +79,12 @@ const store = new Vuex.Store({
         getMenu: state => state.menu,
         getCurrentMenuItem: state => state.currentMenuItem,
         getOrderCount: (state) => {
-            if(state.menu.length === 0) return 0;
+            if (state.menu.length === 0) return 0;
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             return state.menu.map(i => i.count).reduce(reducer);
         },
         getOrderPrice: (state) => {
-            if(state.menu.length === 0) return 0;
+            if (state.menu.length === 0) return 0;
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             return state.menu.map(i => i.count * i.price).reduce(reducer).toFixed(2);
         },

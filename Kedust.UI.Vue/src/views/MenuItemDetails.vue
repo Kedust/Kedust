@@ -8,7 +8,7 @@
     <div>{{ currentMenuItem.name }}</div>
     <div>{{ currentMenuItem.description }}</div>
 
-    <div class="flex-container z-depth-1-half" >
+    <div class="flex-container z-depth-1-half">
       <div class="count-number">{{ currentMenuItem.count }}</div>
 
       <div class="flex-container">
@@ -24,7 +24,7 @@
 
 <style scoped>
 
-.page{
+.page {
   margin: 1rem;
   text-align: center;
 }
@@ -36,7 +36,7 @@
 
 .count-number {
   font-size: 2rem;
-  margin: 0.5rem 2rem 0.5rem 1rem ;
+  margin: 0.5rem 2rem 0.5rem 1rem;
 }
 
 .count-button {
@@ -44,10 +44,10 @@
   margin: 0.5rem;
 }
 
-.back{
+.back {
   position: absolute;
-  top:1rem;
-  left:1rem;
+  top: 1rem;
+  left: 1rem;
 }
 
 .button {
@@ -77,7 +77,7 @@ export default {
       name: String,
       price: Number,
       description: String,
-      image : String
+      image: String
     }
   },
   computed: {
@@ -92,8 +92,8 @@ export default {
       increment: "incrementCurrentOrderItem",
       decrement: "decrementCurrentOrderItem"
     }),
-    goToMenu(){
-      this.$router.push({name:'Menu'})
+    goToMenu() {
+      this.$router.push({name: 'Menu'})
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="itemCount == 0">Er zit nog niets in je winkelmandje.</div>
+    <div v-if="itemCount === 0">Er zit nog niets in je winkelmandje.</div>
     <div class="row">
       <ShoppingCartItem v-for="item in menu" :key="item.id" :item="item"/>
     </div>
@@ -44,12 +44,18 @@ export default {
     })
   },
   methods: {
-    Send() {
+    async Send() {
       this.$store.commit('setLoading', true);
-      this.$store.dispatch('Send').then(() => {
+      const success = await this.$store.dispatch('Send');
+      if(success){
+        await this.$store.dispatch('fetchMenu');
         this.$store.commit('setLoading', false);
-        this.$router.push({name: 'OrderConfirmation'});
-      })
+        await this.$router.push({name: 'OrderConfirmation'});
+      }
+      else{
+        alert("er is iets fout gegaan, probeer later opnieuw alstublieft")
+        this.$store.commit('setLoading', false);
+      }
     }
   }
 }
