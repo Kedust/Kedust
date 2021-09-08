@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.Services", "Kedust.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Api", "Kedust.UI.Api\Kedust.UI.Api.csproj", "{7AB8F152-F29E-4012-B3C6-D455774CA534}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Test", "Kedust.UI.Test\Kedust.UI.Test.csproj", "{B8C621AC-EDB5-4177-A43D-6806FD8297C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
