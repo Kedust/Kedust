@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,15 +19,20 @@ namespace Kedust.UI.Test.Controllers
             _logger = logger;
         }
 
+
         [HttpPost]
-        public bool Post(IEnumerable<OrderItem> orderItems)
+        [Consumes("application/json")]
+        public IActionResult Post([FromBody] IEnumerable<OrderItem> orderItems)
         {
-            foreach (var orderItem in orderItems)
+            var orders = orderItems.ToList();
+            
+            foreach (var orderItem in orders)
             {
                 Console.WriteLine(orderItem.Count + "\t" + orderItem.Name);
             }
 
-            return true;
+            if (orders.Any(oi => oi.Id == 1)) return Ok(true);
+            return Problem();
         }
 
         public class OrderItem

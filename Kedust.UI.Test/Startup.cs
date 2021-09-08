@@ -55,7 +55,7 @@ namespace Kedust.UI.Test
             app.UseAuthorization();
 
             app.UseCors(
-                options => options.WithOrigins("http://192.168.0.160:8080","http://192.168.0.117:8080").AllowAnyMethod()
+                options => options.WithOrigins("http://localhost:8080","http://192.168.0.160:8080","https://192.168.0.160:8080").AllowAnyMethod().AllowAnyHeader()
             );
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
