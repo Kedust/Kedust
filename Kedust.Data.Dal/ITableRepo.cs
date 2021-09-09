@@ -2,7 +2,7 @@
 
 namespace Kedust.Data.Dal
 {
-    public interface ITableRepo: IBaseRepo<Table, string>
+    public interface ITableRepo: IBaseRepo<Table, int>
     {
         
     }

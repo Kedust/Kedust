@@ -1,11 +1,15 @@
-﻿namespace Kedust.Data.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kedust.Data.Domain
 {
-    public class MenuItem
+    public class MenuItem: BaseEntity<int>
     {
-        public int Id { get; set; }
         public string Category { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public string Image { get; set; }
+        
+        public Menu Menu { get; set; }
     }
 }

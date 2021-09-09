@@ -26,6 +26,9 @@ namespace Kedust.UI.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Services.Startup.ConfigureServices(services);
+            
+            services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -43,6 +46,19 @@ namespace Kedust.UI.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
             }
 
+            app.UseCors(
+                options => options
+                    .WithOrigins("http://localhost:8080","http://192.168.0.160:8080","https://192.168.0.160:8080","http://192.168.0.117:8080","https://192.168.0.117:8080")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+            );
+            // app.UseCors(
+            //     options => options
+            //         .AllowAnyOrigin()
+            //         // .WithOrigins("http://localhost:8080", "http://192.168.0.160:8080", "https://kedust.be")
+            //         .AllowAnyMethod()
+            //         .AllowAnyHeader()
+            // );
             app.UseHttpsRedirection();
 
             app.UseRouting();
