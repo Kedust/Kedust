@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="logo" src="/img/kedust-full.svg"/>
+    <img class="logo" src="/img/kedust-full.svg" alt="Logo"/>
     <Spinner v-if="loading"/>
 
     <div class="page-container">
@@ -14,17 +14,13 @@
 </template>
 
 <script>
-import InlineSvg from 'vue-inline-svg';
 import Menu from "@/views/Menu";
 import MenuItemDetails from "@/views/MenuItemDetails";
 import Spinner from "@/components/Spinner";
 import {mapGetters} from "vuex";
 
 export default {
-  components: {Spinner, MenuItemDetails, Menu, InlineSvg},
-  async created() {
-    await this.$store.dispatch('fetchMenu');
-  },
+  components: {Spinner, MenuItemDetails, Menu},
   computed: {
     ...mapGetters({
       loading: 'getLoading'

@@ -14,6 +14,8 @@
 <script>
 
 
+import {mapMutations} from "vuex";
+
 export default {
   name: 'MenuItem',
   props: {
@@ -26,8 +28,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      currentMenuItem: "setCurrentMenuItem"
+    }),
     selectMenuItem(item){
-      this.$store.commit('setCurrentMenuItem',item)
+      this.currentMenuItem(item)
       this.$router.push({name:'OrderItem'})
     }
   }

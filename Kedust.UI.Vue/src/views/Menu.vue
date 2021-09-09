@@ -25,8 +25,14 @@ export default {
   computed:{
     ...mapGetters({
       menu : "getMenu",
-      itemCount: "getOrderCount"
+      itemCount: "getOrderCount",
+      table: "getTable"
     })
+  },
+  mounted() {
+    if(this.table === undefined){
+      this.$router.push({name: "Table"});
+    }
   },
   components: {MenuItem, ShoppingCartButton}
 }

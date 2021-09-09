@@ -2,23 +2,25 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
+const baseUrl = "https://192.168.0.160:4000";
 
 const store = new Vuex.Store({
     state: {
         menu: [],
         currentMenuItem: {},
-        loading: true
+        table: undefined,
+        loading: false
     },
     mutations: {
+        setTable(state, payload){
+            state.table = payload;
+        },
         setLoading(state, payload) {
-            this.state.loading = payload;
+            state.loading = payload;
         },
         setMenu(state, payload) {
-            console.log("setMenu: start")
             payload.forEach(x => x.count = 0);
-            this.state.menu = payload;
-
-            console.log("setMenu: end")
+            state.menu = payload;
         },
         setCurrentMenuItem(state, payload) {
             this.state.currentMenuItem = payload;
@@ -49,29 +51,20 @@ const store = new Vuex.Store({
     },
     actions: {
         async fetchMenu(state) {
-
-            console.log("fetchMenu: start");
-
             state.commit('setLoading', true);
-            const response = await fetch("https://192.168.0.160:4000/Menu");
+            const response = await fetch(baseUrl + "/Menu");
             state.commit('setMenu', await response.json());
             state.commit('setLoading', false);
-
-
-            console.log("fetchMenu: end")
-
         },
         async Send(context) {
-            const response = await fetch("https://192.168.0.160:4000/Order", {
+            await fetch(baseUrl + "/Order", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(context.getters.getOrderItems)
             });
-
-            return response.status === 200;
-
+            return true;
         }
     },
     getters: {
@@ -88,7 +81,8 @@ const store = new Vuex.Store({
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             return state.menu.map(i => i.count * i.price).reduce(reducer).toFixed(2);
         },
-        getOrderItems: state => state.menu.filter(i => i.count > 0)
+        getOrderItems: state => state.menu.filter(i => i.count > 0),
+        getTable: state => state.table
     }
 });
 

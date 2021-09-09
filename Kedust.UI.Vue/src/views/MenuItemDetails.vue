@@ -80,6 +80,12 @@ export default {
       image: String
     }
   },
+  mounted() {
+    console.log(this.currentMenuItem);
+    if(this.currentMenuItem.id === undefined){
+      this.$router.push({name: "Menu"});
+    }
+  },
   computed: {
     ...mapGetters(
         {
