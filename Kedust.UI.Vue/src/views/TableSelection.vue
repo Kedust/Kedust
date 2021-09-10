@@ -1,10 +1,16 @@
 <template>
   <div class="page">
-    <div class="input-field">
-      <input id="table_code" type="text" v-model="input">
-      <label for="table_code">Tafelcode</label>
-    </div>
-    <div class="button primary-bg" @click="SetTableCode">Naar de kaart!</div>
+    <div class="back-button" v-if="tableAvailable" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
+
+    <form @submit="setTableCode">
+      <div class="input-field">
+        <input id="table_code" type="text" v-model="input">
+        <label for="table_code" class="active">Tafelcode</label>
+      </div>
+
+      <div class="button primary-bg" @click="setTableCode">Naar de kaart!</div>
+
+    </form>
 
   </div>
 </template>
@@ -17,22 +23,35 @@
 </style>
 
 <script>
-import {mapMutations, mapActions} from "vuex";
+import {mapMutations, mapActions, mapGetters} from "vuex";
+import Materialize from "materialize-css";
 
 export default {
   name: 'TableSelection',
   props: {
     code: String
   },
-  data() {return {
-    input: ""
-  }},
+  data() {
+    return {
+      input: this.table
+    }
+  },
+  computed: {
+    ...mapGetters({
+      table: "getTable",
+      tableAvailable: "getTableAvailable"
+    })
+  },
   mounted() {
     const table = this.$route.params.code;
     if (table !== undefined) {
       this.setTable(table);
       this.updateMenu();
       this.$router.push({name: 'Menu'});
+    }
+
+    if (this.table !== undefined) {
+      this.input = this.table;
     }
   },
   methods: {
@@ -41,16 +60,24 @@ export default {
       loading: "setLoading"
     }),
     ...mapActions({
-      updateMenu: "fetchMenu"
+      checkTable: "checkTable",
+      updateMenu: "updateMenu"
     }),
-
-    async SetTableCode() {
+    async goToMenu() {
+      await this.$router.push({name: "Menu"})
+    },
+    async setTableCode(e) {
+      e.preventDefault();
       this.loading(true);
-      //CheckTable
-      this.setTable(this.input);
-      await this.updateMenu();
-      this.loading(false);
-      await this.$router.push({name: 'Menu'});
+      if (await this.checkTable(this.input)) {
+        this.setTable(this.input);
+        await this.updateMenu();
+        this.loading(false);
+        await this.$router.push({name: 'Menu'});
+      } else {
+        Materialize.toast({html: "Sorry, die tafel vinden we niet terug...", classes: "toast-danger"});
+        this.loading(false);
+      }
     }
   }
 }

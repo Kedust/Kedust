@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <div class="row">
+      <TableButton/>
       <MenuItem v-for="item in menu" :key="item.id" :item="item"/>
     </div>
     <ShoppingCartButton v-if="itemCount>0"></ShoppingCartButton>
@@ -18,6 +19,7 @@
 import {mapGetters} from "vuex"
 import MenuItem from "@/components/MenuItem";
 import ShoppingCartButton from "@/components/ShoppingCartButton";
+import TableButton from "@/components/TableButton";
 
 
 export default {
@@ -34,7 +36,7 @@ export default {
       this.$router.push({name: "Table"});
     }
   },
-  components: {MenuItem, ShoppingCartButton}
+  components: {MenuItem, ShoppingCartButton, TableButton}
 }
 </script>
 

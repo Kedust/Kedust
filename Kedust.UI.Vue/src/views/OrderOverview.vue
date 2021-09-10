@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <div class="back-button" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
     <div v-if="itemCount === 0">Er zit nog niets in je winkelmandje.</div>
     <div class="row">
       <ShoppingCartItem v-for="item in menu" :key="item.id" :item="item"/>
@@ -11,12 +12,12 @@
       <span>{{ price }} €</span>
     </div>
 
-    <router-link class="button primary" :to="{name: 'Menu'}">Menu</router-link>
     <div v-if="itemCount>0" class="button primary-bg" @click="Send">Verzenden</div>
   </div>
 </template>
 
 <style scoped>
+
 .page {
   margin: 1rem;
 }
@@ -31,6 +32,7 @@
 
 import {mapActions, mapGetters, mapMutations} from "vuex"
 import ShoppingCartItem from "@/components/ShoppingCartItem";
+import Materialize from "materialize-css";
 
 export default {
   name: 'ShoppingCart',
@@ -58,22 +60,25 @@ export default {
   },
   methods: {
     ...mapActions({
-      sendOrder: "Send",
-      updateMenu: "fetchMenu"
+      sendOrder:"sendOrder",
+      updateMenu: "updateMenu"
     }),
     ...mapMutations({
       loading: "setLoading"
     }),
+    async goToMenu() {
+      await this.$router.push({name: 'Menu'});
+    },
     async Send() {
       this.loading(true);
       const success = await this.sendOrder()
       if (success) {
         await this.updateMenu()
-        this.setLoading(false)
+        this.loading(false)
         await this.$router.push({name: 'OrderConfirmation'});
       } else {
-        alert("er is iets fout gegaan, probeer later opnieuw alstublieft");
         this.loading(false);
+        Materialize.toast({html: "er is iets fout gegaan, probeer later opnieuw alstublieft", classes: "toast-danger"});
       }
     }
   }

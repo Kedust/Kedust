@@ -56,6 +56,6 @@ export default {
 
 .count{
   font-weight: bold;
-  color: #f0750f;
+  color: #26a69a;
 }
 </style>

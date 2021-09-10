@@ -1,12 +1,12 @@
 <template>
   <div class="page">
 
-    <div class="button back" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
+    <div class="back-button" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
 
     <img class="picture" :src="currentMenuItem.image" :alt="currentMenuItem.name"/>
 
-    <div>{{ currentMenuItem.name }}</div>
-    <div>{{ currentMenuItem.description }}</div>
+    <h1>{{ currentMenuItem.name }}</h1>
+    <h2>{{ currentMenuItem.description }}</h2>
 
     <div class="flex-container z-depth-1-half">
       <div class="count-number">{{ currentMenuItem.count }}</div>
@@ -23,6 +23,13 @@
 </template>
 
 <style scoped>
+
+h1{
+  font-size: 2.5rem;
+}
+h2{
+  font-size: 1.5rem;
+}
 
 .page {
   margin: 1rem;
@@ -42,12 +49,6 @@
 .count-button {
   padding: 0.75rem 1rem 0.5rem 1rem;
   margin: 0.5rem;
-}
-
-.back {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
 }
 
 .button {
@@ -81,7 +82,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.currentMenuItem);
     if(this.currentMenuItem.id === undefined){
       this.$router.push({name: "Menu"});
     }

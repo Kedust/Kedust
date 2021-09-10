@@ -35,7 +35,7 @@ export default {
 
 .shopping-cart {
   font-size: 1.25rem;
-  background-color: #f0750f;
+  background-color: #26a69a;
   color: white;
   z-index: 0;
   position: fixed;

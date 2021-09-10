@@ -26,6 +26,6 @@ export default {
 }
 
 .spinner-layer {
-  border-color: #f0750f;
+  border-color: #26a69a;
 }
 </style>

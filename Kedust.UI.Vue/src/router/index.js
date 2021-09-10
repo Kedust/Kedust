@@ -1,11 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Menu from "@/views/Menu";
-import OrderLine from "@/views/MenuItemDetails";
+import OrderLine from "@/views/MenuItem";
 import ShoppingCart from "@/views/OrderOverview";
 import OrderConfirmation from "@/views/OrderConfirmation";
 import Admin_Menu from "@/views/Admin/Admin_Menu";
 import TableSelection from "@/views/TableSelection";
+import TableHistory from "@/views/TableHistory";
+import Admin_Table_Overview from "@/views/Admin/Admin_Table_Overview";
 
 Vue.use(VueRouter);
 
@@ -41,9 +43,19 @@ const routes = [
         component: TableSelection
     },
     {
-        name: 'AdminMenu',
+        name: 'TableHistory',
+        path: '/TableHistory',
+        component: TableHistory
+    },
+    {
+        name: 'Admin_Menu',
         path: '/Admin',
         component: Admin_Menu
+    },
+    {
+        name: 'Admin_Tables',
+        path: '/Admin/Tables',
+        component: Admin_Table_Overview
     },
 
 ];
