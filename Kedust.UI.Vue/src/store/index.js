@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import {fetchWithParam} from "@/Helpers/FetchWithParam";
 
 Vue.use(Vuex);
-const baseUrl = "https://192.168.0.159:4000";
+const baseUrl = "https://api.kedust.be";
 
 const store = new Vuex.Store({
     state: {
