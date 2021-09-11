@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     OpenShoppingCart(){
-      this.$router.push({name:'OrderOverview'})
+      this.$router.push({name:'ShoppingCart'})
     }
   }
 }

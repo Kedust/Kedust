@@ -3,7 +3,7 @@
     <div class="back-button" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
     <div v-if="itemCount === 0">Er zit nog niets in je winkelmandje.</div>
     <div class="row">
-      <ShoppingCartItem v-for="item in menu" :key="item.id" :item="item"/>
+      <ShoppingCartChoice v-for="item in menu" :key="item.id" :item="item"/>
     </div>
 
     <div class="total-row">
@@ -31,13 +31,13 @@
 <script>
 
 import {mapActions, mapGetters, mapMutations} from "vuex"
-import ShoppingCartItem from "@/components/ShoppingCartItem";
+import ShoppingCartChoice from "@/components/ShoppingCartChoice";
 import Materialize from "materialize-css";
 
 export default {
   name: 'ShoppingCart',
   components: {
-    ShoppingCartItem
+    ShoppingCartChoice
   },
   props: {
     items: [
@@ -75,7 +75,7 @@ export default {
       if (success) {
         await this.updateMenu()
         this.loading(false)
-        await this.$router.push({name: 'OrderConfirmation'});
+        await this.$router.push({name: 'ThankYou'});
       } else {
         this.loading(false);
         Materialize.toast({html: "er is iets fout gegaan, probeer later opnieuw alstublieft", classes: "toast-danger"});

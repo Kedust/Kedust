@@ -1,9 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import {fetchWithParam} from "@/Helpers/FetchWithParam";
+import appConfig from "@/config";
+import {fetchWithParam} from "@/helpers/FetchWithParam";
 
 Vue.use(Vuex);
-const baseUrl = "https://api.kedust.be";
 
 const store = new Vuex.Store({
     state: {
@@ -51,10 +51,9 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-
         async checkTable(context, payload){
 
-            const result = (await fetchWithParam(baseUrl + "/Table/CheckCode", {
+            const result = (await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Table_Check, {
                     method: 'GET',
                     queryParams: {code: payload}
                 }
@@ -64,12 +63,12 @@ const store = new Vuex.Store({
         },
         async updateMenu(state) {
             state.commit('setLoading', true);
-            const response = await fetch(baseUrl + "/Menu");
+            const response = await fetch(appConfig.apiDomain + appConfig.apiPath_Menu);
             state.commit('setMenu', await response.json());
             state.commit('setLoading', false);
         },
         async sendOrder(context) {
-            const response = await fetch(baseUrl + "/Order", {
+            const response = await fetch(appConfig.apiDomain + appConfig.apiPath_SendOrder, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

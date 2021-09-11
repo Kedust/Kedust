@@ -2,7 +2,7 @@
   <div class="page">
     <div class="row">
       <TableButton/>
-      <MenuItem v-for="item in menu" :key="item.id" :item="item"/>
+      <ChoiceButton v-for="item in menu" :key="item.id" :item="item"/>
     </div>
     <ShoppingCartButton v-if="itemCount>0"></ShoppingCartButton>
   </div>
@@ -17,7 +17,7 @@
 <script>
 
 import {mapGetters} from "vuex"
-import MenuItem from "@/components/MenuItem";
+import ChoiceButton from "@/components/ChoiceButton";
 import ShoppingCartButton from "@/components/ShoppingCartButton";
 import TableButton from "@/components/TableButton";
 
@@ -36,7 +36,7 @@ export default {
       this.$router.push({name: "Table"});
     }
   },
-  components: {MenuItem, ShoppingCartButton, TableButton}
+  components: {ChoiceButton, ShoppingCartButton, TableButton}
 }
 </script>
 

@@ -1,13 +1,10 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Menu from "@/views/Menu";
-import OrderLine from "@/views/MenuItem";
-import ShoppingCart from "@/views/OrderOverview";
-import OrderConfirmation from "@/views/OrderConfirmation";
-import Admin_Menu from "@/views/Admin/Admin_Menu";
-import TableSelection from "@/views/TableSelection";
-import TableHistory from "@/views/TableHistory";
-import Admin_Table_Overview from "@/views/Admin/Admin_Table_Overview";
+import Choice from "@/views/Choice";
+import ShoppingCart from "@/views/ShoppingCart";
+import ThankYou from "@/views/ThankYou";
+import SelectTable from "@/views/SelectTable";
 
 Vue.use(VueRouter);
 
@@ -18,46 +15,30 @@ const routes = [
         component: Menu
     },
     {
-        name: 'OrderItem',
-        path: '/OrderItem',
-        component: OrderLine
+        name: 'Choice',
+        path: '/Choice',
+        component: Choice
     },
     {
-        name: 'OrderOverview',
-        path: '/OrderOverview',
+        name: 'ShoppingCart',
+        path: '/ShoppingCart',
         component: ShoppingCart
     },
     {
-        name: 'OrderConfirmation',
-        path: '/OrderConfirmation',
-        component: OrderConfirmation
+        name: 'ThankYou',
+        path: '/ThankYou',
+        component: ThankYou
     },
     {
         name: 'Table',
         path: '/Table',
-        component: TableSelection
+        component: SelectTable
     },
     {
-        name: 'TableCode',
+        name: 'TableUrl',
         path: '/Table/:code',
-        component: TableSelection
-    },
-    {
-        name: 'TableHistory',
-        path: '/TableHistory',
-        component: TableHistory
-    },
-    {
-        name: 'Admin_Menu',
-        path: '/Admin',
-        component: Admin_Menu
-    },
-    {
-        name: 'Admin_Tables',
-        path: '/Admin/Tables',
-        component: Admin_Table_Overview
-    },
-
+        component: SelectTable
+    }
 ];
 
 const router = new VueRouter({

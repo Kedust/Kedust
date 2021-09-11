@@ -27,7 +27,7 @@ import {mapMutations, mapActions, mapGetters} from "vuex";
 import Materialize from "materialize-css";
 
 export default {
-  name: 'TableSelection',
+  name: 'SelectTable',
   props: {
     code: String
   },
@@ -42,12 +42,18 @@ export default {
       tableAvailable: "getTableAvailable"
     })
   },
-  mounted() {
+  async mounted() {
     const table = this.$route.params.code;
     if (table !== undefined) {
-      this.setTable(table);
-      this.updateMenu();
-      this.$router.push({name: 'Menu'});
+      if (await this.checkTable(this.input)) {
+        this.setTable(table);
+        await this.updateMenu();
+        await this.$router.push({name: 'Menu'});
+      }
+      else {
+        Materialize.toast({html: "Sorry, die tafel vinden we niet terug...</br>Geef de code hierboven in alstublieft", classes: "toast-danger"});
+        this.loading(false);
+      }
     }
 
     if (this.table !== undefined) {
@@ -81,6 +87,4 @@ export default {
     }
   }
 }
-
-
 </script>

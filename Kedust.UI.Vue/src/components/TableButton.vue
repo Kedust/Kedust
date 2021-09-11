@@ -8,11 +8,11 @@
 
       <div>
         <span>
-          <i class="border material-icons" @click="router('Table')">edit</i>
+          <i class="border material-icons" @click="goTo('Table')">edit</i>
         </span>
-        <span>
-          <i class="border material-icons" @click="router('TableHistory')">history</i>
-        </span>
+<!--        <span>-->
+<!--          <i class="border material-icons" @click="goTo('TableHistory')">history</i>-->
+<!--        </span>-->
       </div>
     </div>
   </div>
@@ -29,8 +29,8 @@ export default {
     })
   },
   methods: {
-    async goToMenu() {
-      await this.$router.push({name: 'Menu'});
+    async goTo(name) {
+      await this.$router.push({name});
     },
   }
 }

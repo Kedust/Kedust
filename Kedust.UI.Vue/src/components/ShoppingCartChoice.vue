@@ -18,7 +18,7 @@
 import {mapMutations} from "vuex";
 
 export default {
-  name: 'ShoppingCartItem',
+  name: 'ShoppingCartChoice',
   methods: {
     ...mapMutations({
       increment: "incrementOrderItem",

@@ -71,7 +71,7 @@ h2{
 import {mapGetters, mapMutations} from "vuex";
 
 export default {
-  name: 'MenuItemDetails',
+  name: 'Choice',
   props: {
     item: {
       id: Number,

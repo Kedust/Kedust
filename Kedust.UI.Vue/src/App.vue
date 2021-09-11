@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="logo" src="/img/kedust-full.svg" alt="Logo"/>
+    <img class="logo" :src='require("@/assets/img/kedust-full.svg")' alt="Logo"/>
     <Spinner v-if="loading"/>
     <div class="page-container">
       <router-view v-slot="{ Component }">
@@ -14,12 +14,12 @@
 
 <script>
 import Menu from "@/views/Menu";
-import MenuItemDetails from "@/views/MenuItem";
+import Choice from "@/views/Choice";
 import Spinner from "@/components/Spinner";
 import {mapGetters} from "vuex";
 
 export default {
-  components: {Spinner, MenuItemDetails, Menu},
+  components: {Spinner, Choice, Menu},
   computed: {
     ...mapGetters({
       loading: 'getLoading',
@@ -31,13 +31,13 @@ export default {
 
 <style>
 
-.toast-danger{
+.toast-danger {
   text-align: center;
   background-color: red;
   padding-bottom: 2rem;
 }
 
-.toast-ok{
+.toast-ok {
   text-align: center;
   padding-bottom: 2rem;
 }
@@ -79,10 +79,11 @@ body {
   margin-bottom: 1rem;
 }
 
-.primary{
+.primary {
   color: #26a69a;
 }
-.primary-bg{
+
+.primary-bg {
   background-color: #26a69a;
   color: white;
 }

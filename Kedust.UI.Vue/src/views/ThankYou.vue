@@ -1,10 +1,9 @@
 <template>
   <div class="page">
     <div class="notification">
-    Uw bestelling is verzonden en komt zo dadelijk aan
-</div>
+      Uw bestelling is verzonden en komt er zo dadelijk aan.
+    </div>
     <router-link class="button primary-bg" :to="{name: 'Menu'}">Nieuwe bestelling</router-link>
-
   </div>
 </template>
 
@@ -13,14 +12,15 @@
   margin: 1rem;
   text-align: center;
 }
-.notification{
+
+.notification {
   margin-bottom: 1rem;
 }
 </style>
 
 <script>
 export default {
-  name: 'OrderConfirmation'
+  name: 'ThankYou'
 }
 
 </script>

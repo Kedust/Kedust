@@ -17,7 +17,7 @@
 import {mapMutations} from "vuex";
 
 export default {
-  name: 'MenuItem',
+  name: 'ChoiceButton',
   props: {
     id: Number,
     item: {
@@ -31,9 +31,9 @@ export default {
     ...mapMutations({
       currentMenuItem: "setCurrentMenuItem"
     }),
-    selectMenuItem(item){
+    async selectMenuItem(item){
       this.currentMenuItem(item)
-      this.$router.push({name:'OrderItem'})
+      await this.$router.push({name:"Choice"});
     }
   }
 }
