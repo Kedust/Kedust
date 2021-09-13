@@ -8,9 +8,8 @@ namespace Kedust.Services
         public static void ConfigureServices(IServiceCollection services)
         {
             Data.Dal.Startup.ConfigureServices(services);
-            
-            services.AddTransient<IPrintService, PrintService>();
 
+            services.AddTransient<IPrintService, PrintService>();
         }
     }
 }

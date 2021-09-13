@@ -6,21 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kedust.Data.Dal.EfImplementation
 {
-    internal class MenuItemRepo: BaseRepo<MenuItem, int>, IMenuItemRepo
+    internal class ChoiceRepo: BaseRepo<Choice, int>, IChoiceRepo
     {
-        public MenuItemRepo(Context context) : base(context)
+        public ChoiceRepo(Context context) : base(context)
         {
         }
 
-        public async Task<IEnumerable<MenuItem>> GetByTableCode(string tableCode)
+        public async Task<IEnumerable<Choice>> GetByTableCode(string tableCode)
         {
-            var SQL = Context
-                .Tables
-                .Where(t => t.Code == tableCode)
-                .Select(t => t.Menu)
-                .SelectMany(m => m.MenuItems)
-                .ToQueryString();
-            
             return await Context
                 .Tables
                 .Where(t => t.Code == tableCode)

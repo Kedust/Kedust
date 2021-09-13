@@ -4,7 +4,12 @@ namespace Kedust.Data.Domain
 {
     public class OrderItem: BaseEntity<int>
     {
-        public MenuItem MenuItem { get; set; }
+        public Choice Choice { get; set; }
         public int Amount { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Amount} x {Choice.Name}";
+        }
     }
 }

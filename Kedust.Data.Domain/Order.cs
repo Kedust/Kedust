@@ -9,6 +9,6 @@ namespace Kedust.Data.Domain
     {
         public DateTime TimeOrderPlaced { get; set; }
         public Table Table { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

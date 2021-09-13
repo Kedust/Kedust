@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Kedust.Data.Domain;
+using Microsoft.Extensions.Configuration;
 
 namespace Kedust.Services.Implementation
 {
@@ -12,14 +13,27 @@ namespace Kedust.Services.Implementation
     {
         private const string FontTitle = "Cambria Math";
         private const int PageWidth = 280;
-        
-        public Task PrintOrderTicket(Order order){
 
-            using (PrintDocument printDoc = new PrintDocument())
+        private readonly PrinterConfiguration _printerConfig;
+        public PrintService(IConfiguration configuration)
+        {
+            _printerConfig = new PrinterConfiguration();
+            configuration.Bind("PrinterConfiguration", _printerConfig);
+        }
+
+        public Task PrintOrderTicket(Order order)
+        {
+            PrinterSettings printer = new PrinterSettings();
+            printer.PrinterName = _printerConfig.PrinterName;
+
+            if (printer.IsValid)
             {
-                printDoc.PrinterSettings.PrinterName = "EPSON TM-T20III Receipt";
-                printDoc.PrintPage += (_, eventArgs) => OnPrintDocOnPrintPage(eventArgs, order);
-                printDoc.Print();
+                using (PrintDocument printDoc = new PrintDocument())
+                {
+                    printDoc.PrinterSettings = printer;
+                    printDoc.PrintPage += (_, eventArgs) => OnPrintDocOnPrintPage(eventArgs, order);
+                    printDoc.Print();
+                }
             }
 
             return Task.CompletedTask;
@@ -75,10 +89,11 @@ namespace Kedust.Services.Implementation
 
             g.DrawString(line.Amount.ToString(), new Font(FontTitle, 12), new SolidBrush(Color.Black), 0, offset);
 
-            g.DrawString(line.MenuItem.Name, new Font(FontTitle, 12), new SolidBrush(Color.Black), fontSize1.Width, offset);
+            g.DrawString(line.Choice.Name, new Font(FontTitle, 12), new SolidBrush(Color.Black), fontSize1.Width,
+                offset);
 
-            var fontSize2 = g.MeasureString($"{line.Amount * line.MenuItem.Price:0.00}", new Font(FontTitle, 12));
-            g.DrawString($"{line.Amount * line.MenuItem.Price:0.00}", new Font(FontTitle, 12),
+            var fontSize2 = g.MeasureString($"{line.Amount * line.Choice.Price:0.00}", new Font(FontTitle, 12));
+            g.DrawString($"{line.Amount * line.Choice.Price:0.00}", new Font(FontTitle, 12),
                 new SolidBrush(Color.Black), PageWidth - fontSize2.Width, offset);
 
             return Convert.ToInt32(fontSize1.Height);
@@ -88,8 +103,10 @@ namespace Kedust.Services.Implementation
         {
             g.DrawString("Totaal", new Font(FontTitle, 12, FontStyle.Bold), new SolidBrush(Color.Black), 0, offset);
 
-            var fontSize2 = g.MeasureString($"{order.OrderItems.Sum(oi => oi.Amount * oi.MenuItem.Price):0.00}", new Font(FontTitle, 12, FontStyle.Bold));
-            g.DrawString($"{order.OrderItems.Sum(oi => oi.Amount * oi.MenuItem.Price):0.00}", new Font(FontTitle, 12, FontStyle.Bold),
+            var fontSize2 = g.MeasureString($"{order.OrderItems.Sum(oi => oi.Amount * oi.Choice.Price):0.00}",
+                new Font(FontTitle, 12, FontStyle.Bold));
+            g.DrawString($"{order.OrderItems.Sum(oi => oi.Amount * oi.Choice.Price):0.00}",
+                new Font(FontTitle, 12, FontStyle.Bold),
                 new SolidBrush(Color.Black), PageWidth - fontSize2.Width, offset);
 
             return Convert.ToInt32(fontSize2.Height);
@@ -106,7 +123,8 @@ namespace Kedust.Services.Implementation
                 PageWidth / 2.0f - textSize1.Width / 2.0f,
                 offset);
 
-            var textSize2 = g.MeasureString(order.TimeOrderPlaced.ToString("dd-MM-yyyy HH:mm:ss"), new Font(FontTitle, 10));
+            var textSize2 = g.MeasureString(order.TimeOrderPlaced.ToString("dd-MM-yyyy HH:mm:ss"),
+                new Font(FontTitle, 10));
             g.DrawString(
                 order.TimeOrderPlaced.ToString("dd-MM-yyyy HH:mm:ss"),
                 new Font(FontTitle, 10),

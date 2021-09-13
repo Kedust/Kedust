@@ -5,64 +5,74 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Kedust.Data.Dal;
 using Kedust.Data.Domain;
+using Kedust.Services;
 
 namespace Kedust.UI.Cmd.Services
 {
     public class CommandService
     {
-        private readonly IMenuItemRepo _menuItemRepo;
-        private readonly ITableRepo _tableRepo;
-        private readonly IMenuRepo _menuRepo;
-        public CommandService(IMenuItemRepo menuItemRepo, ITableRepo tableRepo, IMenuRepo menuRepo)
+        private readonly CmdTableService _cmdTableService;
+        private readonly IPrintService _printService; 
+
+        public CommandService(CmdTableService cmdTableService, IPrintService printService)
         {
-            _menuItemRepo = menuItemRepo;
-            _tableRepo = tableRepo;
-            _menuRepo = menuRepo;
+            _cmdTableService = cmdTableService;
+            _printService = printService;
         }
-        
-        
+
+
         public async void Start()
         {
-            while (true)
+            bool loop = true;
+            while (loop)
             {
                 string cmd = Console.ReadLine();
-                if (cmd == "exit") break;
-                string prefix = cmd.Contains(' ')? cmd.Substring(0, cmd.IndexOf(' ')): cmd;
-
-
-                switch (prefix)
+                if(string.IsNullOrWhiteSpace(cmd))
+                    continue;
+                switch (cmd)
                 {
-                    case "Menu":
-                        Console.WriteLine(string.Join("\n",(await _menuItemRepo.GetByTableCode("azerty")).Select(x => x.Name)));
+                    case "print":
+                        await _printService.PrintOrderTicket(new Order
+                        {
+                            OrderItems = new List<OrderItem>
+                            {
+                                new OrderItem
+                                {
+                                    Amount = 2,
+                                    Choice = new Choice
+                                    {
+                                        Category = "Drinks",
+                                        Description = "Cola",
+                                        Name = "Coca cola",
+                                        Price = 1.8m
+                                    }
+                                }
+                            },
+                            Table = new Table
+                            {
+                                Description = "42",
+                                Code = "azerty"
+                            },
+                            TimeOrderPlaced = DateTime.Now
+                        });
                         break;
-                    case "Create":
-
-                        MenuItem item = await _menuItemRepo.Insert(new MenuItem
-                        {
-                            Category = "Drinks",
-                            Description = null,
-                            Name = "Spuitwater",
-                            Price = 1.2m,
-                            
-                            
-                        });
-
-                        Menu menu = await _menuRepo.Insert(new Menu
-                        {
-                            MenuItems = new List<MenuItem> {item}
-                        });
-
-                        Table table = await _tableRepo.Insert(new Table
-                        {
-                            Code = "azerty",
-                            Description = "23",
-                            Menu = menu
-                        });
-                        
+                    case "exit":
+                        loop = false;
+                        break;
+                    case var s when s.StartsWith("table"):
+                        await _cmdTableService.Command(cmd.Substring("table".Length).TrimStart());
+                        break;
+                    case var s when s.StartsWith("menu"):
+                        await _cmdTableService.Command(cmd.Substring("menu".Length).TrimStart());
                         break;
                 }
-                
             }
+        }
+
+        private static string ReadLine(string question)
+        {
+            Console.WriteLine(question);
+            return Console.ReadLine();
         }
     }
 }

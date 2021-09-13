@@ -2,7 +2,7 @@
 
 namespace Kedust.Data.Domain
 {
-    public class MenuItem: BaseEntity<int>
+    public class Choice: BaseEntity<int>
     {
         public string Category { get; set; }
         public string Name { get; set; }

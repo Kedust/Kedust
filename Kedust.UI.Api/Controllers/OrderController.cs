@@ -26,10 +26,11 @@ namespace Kedust.UI.Api.Controllers
         [Consumes("application/json")]
         public IActionResult Post([FromBody] IEnumerable<OrderItem> orderItems)
         {
+            
             var orders = orderItems.Select(x => new Kedust.Data.Domain.OrderItem()
             {
                 Amount = x.Count,
-                MenuItem = new MenuItem
+                Choice = new Choice
                 {
                     Description = x.Description,
                     Name = x.Name,
@@ -37,6 +38,8 @@ namespace Kedust.UI.Api.Controllers
                     Category = x.Category
                 }
             }).ToList();
+            
+            _logger.LogInformation($"POST /Order \n {string.Join('\n', orders.Select(o => o.ToString()))}");
             
             Order order = new Order()
             {

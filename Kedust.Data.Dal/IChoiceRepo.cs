@@ -5,8 +5,8 @@ using Kedust.Data.Domain;
 
 namespace Kedust.Data.Dal
 {
-    public interface IMenuItemRepo: IBaseRepo<MenuItem, int>
+    public interface IChoiceRepo: IBaseRepo<Choice, int>
     {
-        Task<IEnumerable<MenuItem>> GetByTableCode(string tableCode);
+        Task<IEnumerable<Choice>> GetByTableCode(string tableCode);
     }
 }

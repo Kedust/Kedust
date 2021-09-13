@@ -16,7 +16,7 @@ namespace Kedust.Data.Dal
 
 
             services.AddScoped<IMenuRepo, MenuRepo>();
-            services.AddScoped<IMenuItemRepo, MenuItemRepo>();
+            services.AddScoped<IChoiceRepo, ChoiceRepo>();
             services.AddScoped<IOrderRepo, OrderRepo>();
             services.AddScoped<IOrderItemRepo, OrderItemRepo>();
             services.AddScoped<ITableRepo, TableRepo>();
