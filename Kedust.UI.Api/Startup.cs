@@ -40,6 +40,9 @@ namespace Kedust.UI.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
+            
             app.UseCors(
                 options => options
                     .AllowAnyOrigin()
