@@ -51,19 +51,21 @@ const store = new Vuex.Store({
         },
     },
     actions: {
-        async checkTable(context, payload){
+        async checkTable(_, payload){
 
-            const result = (await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Table_Check, {
-                    method: 'GET',
-                    queryParams: {code: payload}
-                }
-            ));
-            const jsonResult = await result.json()
+            const response = await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Table_Check, {
+                queryParams: {code: payload},
+            });
+            const jsonResult = await response.json()
             return jsonResult.success;
         },
+
         async updateMenu(state) {
             state.commit('setLoading', true);
-            const response = await fetch(appConfig.apiDomain + appConfig.apiPath_Menu);
+            const code = state.getters.getTable;
+            const response = await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Menu, {
+                queryParams: {code}
+            });
             state.commit('setMenu', await response.json());
             state.commit('setLoading', false);
         },
