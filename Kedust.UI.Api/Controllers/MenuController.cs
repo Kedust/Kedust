@@ -18,11 +18,5 @@ namespace Kedust.UI.Api.Controllers
         {
             _logger = logger;
         }
-
-        [HttpGet]
-        public IEnumerable<MenuItem> Get()
-        {
-            return default;
-        }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kedust.Data.Domain
 {
-    public class Menu
+    public class Menu:BaseEntity<int>
     {
-        public int Id { get; set; }
-        public ICollection<MenuItem> MenuItems { get; set; }
+        public string Name { get; set; }
+        public ICollection<Choice> MenuItems { get; set; }
     }
 }

@@ -36,8 +36,10 @@ namespace Kedust.UI.Cmd
 
         private void ConfigureServices(IServiceCollection services)
         {
+            Kedust.Services.Startup.ConfigureServices(services);
             services.AddSingleton(Configuration)
-                .AddSingleton<CommandService>();
+                .AddSingleton<CommandService>()
+                .AddSingleton<CmdTableService>();
         }
     }
 }

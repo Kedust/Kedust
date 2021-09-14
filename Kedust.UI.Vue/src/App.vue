@@ -1,65 +1,97 @@
-
-
 <template>
   <div>
-    <router-link to="/">MENU</router-link>
-    <router-link to="/Item">ITEM</router-link>
-    <img src="/img/kedust-full.svg" class="logo"/>
+    <img class="logo" :src='require("@/assets/img/kedust-full.svg")' alt="Logo"/>
+    <Spinner v-if="loading"/>
     <div class="page-container">
-  <router-view v-slot="{ Component, route }">
-  <transition :enter-active-class="route.meta.enterClass"
-                :leave-active-class="route.meta.leaveClass">
-      <component :is="Component"/>
-    </transition>
-  </router-view>
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in">
+          <component :is="Component"/>
+        </transition>
+      </router-view>
     </div>
-
   </div>
 </template>
 
-<style>
-
-a{
-  font-weight:bold;
-  color: #2c3e50;
-  text-decoration: none;
-  margin-right: 1em;
-}
-
-.logo{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60vw;
-  max-height: 20vh;
-}
-.page-container{
-  display: grid;
-  grid-template-columns: 1fr;
-}
-.page{
-  grid-row-start: 1;
-  grid-column-start: 1;
-}
-
-  a:hover,
-  a.router-link-active{
-    border-bottom:2px solid #3498db;
-  }
-
-  .fade-enter-from,
-  .fade-leave-to{
-    opacity: 0;
-  }
-  .fade-enter-active,
-  .fade-leave-active{
-    transition: opacity 0.5s ease-out;
-  }
-</style>
 <script>
-import Menu from "@/components/Menu";
-import MenuItemDetails from "@/components/MenuItemDetails";
+import Menu from "@/views/Menu";
+import Choice from "@/views/Choice";
+import Spinner from "@/components/Spinner";
+import {mapGetters} from "vuex";
+
 export default {
-  components: {MenuItemDetails, Menu}
+  components: {Spinner, Choice, Menu},
+  computed: {
+    ...mapGetters({
+      loading: 'getLoading',
+      table: 'getTable'
+    })
+  }
 }
 </script>
+
+<style>
+
+.toast-danger {
+  text-align: center;
+  background-color: red;
+  padding-bottom: 2rem;
+}
+
+.toast-ok {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem;
+  max-height: 12vh;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14),
+  0 1px 7px 0 rgba(0, 0, 0, 0.12),
+  0 3px 1px -1px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  display: block;
+}
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  user-select: none;
+  cursor: default;
+}
+
+.logo {
+  display: block;
+  margin: 1rem auto 1rem auto;
+  max-width: 50vw;
+  max-height: 12vh;
+}
+
+.button {
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14),
+  0 1px 7px 0 rgba(0, 0, 0, 0.12),
+  0 3px 1px -1px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  display: block;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.primary {
+  color: #26a69a;
+}
+
+.primary-bg {
+  background-color: #26a69a;
+  color: white;
+}
+
+.border {
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14),
+  0 1px 7px 0 rgba(0, 0, 0, 0.12),
+  0 3px 1px -1px rgba(0, 0, 0, 0.35);
+
+}
+</style>

@@ -1,9 +1,15 @@
-﻿namespace Kedust.Data.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Kedust.Data.Domain
 {
-    public class OrderItem
+    public class OrderItem: BaseEntity<int>
     {
-        public int Id { get; set; }
-        public MenuItem MenuItem { get; set; }
+        public Choice Choice { get; set; }
         public int Amount { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Amount} x {Choice.Name}";
+        }
     }
 }
