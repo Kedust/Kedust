@@ -2,15 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.Data.Domain", "Kedust.Data.Domain\Kedust.Data.Domain.csproj", "{E2E961A9-ECB8-4424-A913-EEA1D5C9EA0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Cmd", "Kedust.UI.Cmd\Kedust.UI.Cmd.csproj", "{A06898B6-9FBC-4457-8228-3D4C42C5987B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.Data.Dal", "Kedust.Data.Dal\Kedust.Data.Dal.csproj", "{76FED860-29EB-4C99-9CA4-628324F72B00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.Services", "Kedust.Services\Kedust.Services.csproj", "{3A0DA7FF-85FE-43D7-9CA1-040D9FC5C8C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Api", "Kedust.UI.Api\Kedust.UI.Api.csproj", "{7AB8F152-F29E-4012-B3C6-D455774CA534}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Test", "Kedust.UI.Test\Kedust.UI.Test.csproj", "{B8C621AC-EDB5-4177-A43D-6806FD8297C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +18,6 @@ Global
 		{E2E961A9-ECB8-4424-A913-EEA1D5C9EA0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2E961A9-ECB8-4424-A913-EEA1D5C9EA0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2E961A9-ECB8-4424-A913-EEA1D5C9EA0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A06898B6-9FBC-4457-8228-3D4C42C5987B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A06898B6-9FBC-4457-8228-3D4C42C5987B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A06898B6-9FBC-4457-8228-3D4C42C5987B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A06898B6-9FBC-4457-8228-3D4C42C5987B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76FED860-29EB-4C99-9CA4-628324F72B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{76FED860-29EB-4C99-9CA4-628324F72B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76FED860-29EB-4C99-9CA4-628324F72B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,9 +30,5 @@ Global
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B8C621AC-EDB5-4177-A43D-6806FD8297C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
