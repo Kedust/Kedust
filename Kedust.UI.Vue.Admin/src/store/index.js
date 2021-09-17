@@ -6,6 +6,9 @@ export default createStore({
   mutations: {
   },
   actions: {
+    async gotoRoute(payload){
+      await this.$router.push({name: payload});
+    }
   },
   modules: {
   }
