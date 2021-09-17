@@ -6,6 +6,6 @@ namespace Kedust.Data.Domain
     public class Menu:BaseEntity<int>
     {
         public string Name { get; set; }
-        public ICollection<Choice> MenuItems { get; set; }
+        public ICollection<Choice> Choices { get; set; }
     }
 }

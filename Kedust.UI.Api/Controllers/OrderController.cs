@@ -21,13 +21,18 @@ namespace Kedust.UI.Api.Controllers
             _printService = printService;
         }
 
+        public class PostRequest
+        {
+            public IEnumerable<OrderItem> Items { get; set; }
+            public string Table { get; set; }
+        }
 
         [HttpPost]
         [Consumes("application/json")]
-        public IActionResult Post([FromBody] IEnumerable<OrderItem> orderItems)
+        public IActionResult Post([FromBody] PostRequest request)
         {
             
-            var orders = orderItems.Select(x => new Kedust.Data.Domain.OrderItem()
+            var orders = request.Items.Select(x => new Kedust.Data.Domain.OrderItem()
             {
                 Amount = x.Count,
                 Choice = new Choice
@@ -46,12 +51,12 @@ namespace Kedust.UI.Api.Controllers
                 OrderItems = orders,
                 Table = new Table
                 {
-                    Description = "21"
+                    Description = request.Table
                 },
                 TimeOrderPlaced = DateTime.Now
             };
             
-            _printService.PrintOrderTicket(order);
+            // _printService.PrintOrderTicket(order);
             return Ok(true);
         }
 

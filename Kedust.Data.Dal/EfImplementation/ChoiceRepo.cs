@@ -18,7 +18,7 @@ namespace Kedust.Data.Dal.EfImplementation
                 .Tables
                 .Where(t => t.Code == tableCode)
                 .Select(t => t.Menu)
-                .SelectMany(m => m.MenuItems)
+                .SelectMany(m => m.Choices)
                 .ToListAsync();
         }
     }

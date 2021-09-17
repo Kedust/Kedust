@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace Kedust.UI.Api
@@ -19,9 +20,16 @@ namespace Kedust.UI.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-            
+
             Services.Startup.ConfigureServices(services);
-            
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder
+                    .AddSeq(
+                        serverUrl: Configuration.GetSection("seqUrl").Value,
+                        apiKey: Configuration.GetSection("seqKey").Value);
+            });
+
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -33,16 +41,10 @@ namespace Kedust.UI.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
-            }
-
+            app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
-            
+
             app.UseCors(
                 options => options
                     .AllowAnyOrigin()
