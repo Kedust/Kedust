@@ -17,9 +17,7 @@
         </ul>
 
         <ul id="nav-mobile" class="sidenav kedust-green">
-          <li>
-            <RouterLink to="Menus" tag="a">Menu</RouterLink>
-          </li>
+          <li><a class="dropdown-trigger" href="#" data-target="dropdown1">Menu's<i class="material-icons right">arrow_drop_down</i></a></li>
           <li>
             <RouterLink to="Tables" tag="a">Tafels</RouterLink>
           </li>
