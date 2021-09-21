@@ -7,10 +7,6 @@
       <form class="col s12">
         <div class="row">
           <div class="input-field col s6">
-            <input id="menu" type="text">
-            <label for="menu">Naam</label>
-          </div>
-          <div class="input-field col s6">
             <button v-if='id === undefined' class="btn waves-effect waves-light">Aanmaken
               <i class="material-icons left">add</i>
             </button>
@@ -23,7 +19,9 @@
     </div>
 
     <div class="section">
-      <ImgBase64Upload></ImgBase64Upload>
+      <ImgBase64Upload className="img"></ImgBase64Upload>
+      <ImgBase64Upload className="img"></ImgBase64Upload>
+      <ImgBase64Upload className="img"></ImgBase64Upload>
     </div>
   </div>
 
@@ -50,5 +48,7 @@ export default {
 </script>
 
 <style scoped>
-
+/deep/.img{
+  height: 5rem;
+}
 </style>
