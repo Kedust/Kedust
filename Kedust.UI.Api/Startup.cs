@@ -1,3 +1,4 @@
+using Kedust.UI.Api.Config;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,19 +16,20 @@ namespace Kedust.UI.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
 
+            var seqConfig = new SeqConfig();
+            Configuration.Bind("Seq", seqConfig);
+
             Services.Startup.ConfigureServices(services);
             services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder
-                    .AddSeq(
-                        serverUrl: Configuration.GetSection("seqUrl").Value,
-                        apiKey: Configuration.GetSection("seqKey").Value);
+                    .AddSeq(seqConfig.Url, seqConfig.Key);
             });
 
             services.AddCors();

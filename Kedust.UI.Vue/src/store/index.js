@@ -70,12 +70,17 @@ const store = new Vuex.Store({
             state.commit('setLoading', false);
         },
         async sendOrder(context) {
+            let body = {
+                items: context.getters.getOrderItems,
+                table: context.getters.getTable
+            };
+
             const response = await fetch(appConfig.apiDomain + appConfig.apiPath_SendOrder, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(context.getters.getOrderItems)
+                body: JSON.stringify(body)
             });
             return response.ok;
         }
