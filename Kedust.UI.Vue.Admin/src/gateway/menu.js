@@ -13,5 +13,12 @@ export default {
                 params: {id}
             })
             .then((response) => response.data);
+    },
+    delete(id) {
+        return axios
+            .delete(appConfig.api.domain + appConfig.api.menu.delete, {
+                params: {id}
+            })
+            .then((response) => response.data);
     }
 }

@@ -1,25 +1,38 @@
 <template>
-
   <tr>
-    <td><ImgBase64Upload :image="item.image"/></td>
-    <td>{{item.name}}</td>
-    <td>{{item.description}}</td>
-    <td>{{item.price}}</td>
+    <td>
+      <ImgUpload v-model:image="item.image"/>
+    </td>
+    <td><input type="text" v-model="item.name"/></td>
+    <td><input type="text" v-model="item.description"/></td>
+    <td><input type="number" v-model="item.price"/></td>
   </tr>
 </template>
 
 <script>
-import ImgBase64Upload from "@/components/ImgUpload";
+import ImgUpload from "@/components/ImgUpload";
+
 export default {
   name: "TableRowChoice",
-  components: {ImgBase64Upload},
-  props:{
-    item: {
+  props: {
+    item_prop: {
       image: String,
       name: String,
       description: String,
       price: Number
     }
+  },
+  mounted() {
+    console.log(this.item_prop)
+    console.log(this.item);
+  },
+  data(){
+    return{
+      item: this.item_prop
+    }
+  },
+  components:{
+    ImgUpload
   }
 }
 </script>

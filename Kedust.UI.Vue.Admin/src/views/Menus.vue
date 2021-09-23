@@ -3,6 +3,10 @@
   <div class="container">
     <div class="section">
 
+      <div class="waves-effect btn" @click="this.$router.push({name: 'MenuNew'})">
+        <i  class="material-icons left">add</i> Nieuw
+      </div>
+
 
       <table class="striped responsive-table">
         <thead>
@@ -18,7 +22,7 @@
           <td class="right-align">
             <div class="waves-effect btn" @click="this.$router.push({name: 'MenuEdit', params:{id: item.id}})"><i
                 class="material-icons">edit</i></div>
-            <div class="waves-effect btn red"><i class="material-icons">delete</i></div>
+            <div class="waves-effect btn red" @click="Delete(item)"><i class="material-icons">delete</i></div>
           </td>
         </tr>
         </tbody>
@@ -35,13 +39,18 @@ import Gateways from "@/gateway";
 
 export default {
   name: "Menus",
-  data(){
-    return{
-      menus:[]
+  data() {
+    return {
+      menus: []
     }
   },
   async mounted() {
     Gateways.Menu.getAll().then((data) => this.menus = data);
+  },
+  methods: {
+    Delete(item) {
+      Gateways.Menu.delete(item.id).then(() => Gateways.Menu.getAll().then((data) => this.menus = data));
+    }
   }
 }
 </script>

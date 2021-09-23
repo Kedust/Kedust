@@ -5,20 +5,17 @@
 
 <script>
 export default {
-  name: "ImgBase64Upload",
+  name: "ImgUpload",
   props: {
     image: String
   },
   methods: {
     handleImage(e) {
       const selectImage = e.target.files[0];
-      this.createBase64Image(selectImage);
-    },
-    createBase64Image(fileObject) {
       let reader = new FileReader();
-      reader.readAsDataURL(fileObject);
+      reader.readAsDataURL(selectImage);
       reader.onload = function () {
-        this.$emit("selected", reader.result);
+        this.$emit("update:image", reader.result);
       }.bind(this);
     },
     promptNewImage() {

@@ -8,22 +8,31 @@
       <th>Prijs</th>
     </tr>
     </thead>
+
     <tbody>
-    <TableRowChoice v-for="item in items" :key="item.id" :item="item"/>
+    <tr v-for="item in items" :key="item.id" :item="item">
+      <td>
+        <ImgUpload v-model:image="item.image"/>
+      </td>
+      <td><input type="text" v-model="item.name"/></td>
+      <td><input type="text" v-model="item.description"/></td>
+      <td><input type="number" v-model="item.price"/></td>
+    </tr>
+
     </tbody>
   </table>
 </template>
 
 <script>
-import TableRowChoice from "@/components/Menu/TableRowChoice";
 
+import ImgUpload from "@/components/ImgUpload";
 export default {
   name: "TableChoice",
-  props: {
-    items: []
+  components: {ImgUpload},
+  props:{
+    items:Array
   },
-  components: {
-    TableRowChoice
+  methods:{
   }
 }
 </script>
