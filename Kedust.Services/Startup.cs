@@ -10,6 +10,7 @@ namespace Kedust.Services
             Data.Dal.Startup.ConfigureServices(services);
 
             services.AddTransient<IPrintService, PrintService>();
+            services.AddTransient<IMenuService, MenuService>();
         }
     }
 }

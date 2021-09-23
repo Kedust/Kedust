@@ -1,12 +1,15 @@
+using Kedust.Data.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kedust.Data.Dal
 {
-    internal class Context: DbContext
+    internal sealed class Context: DbContext
     {
         public Context(DbContextOptions options) : base(options)
         {
-            this.Database.EnsureCreated();
+            Database.EnsureCreated();
+            ChangeTracker.AutoDetectChangesEnabled = false;
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         
         public DbSet<Domain.Menu> Menus { get; set; }
@@ -14,5 +17,15 @@ namespace Kedust.Data.Dal
         public DbSet<Domain.Order> Orders { get; set; }
         public DbSet<Domain.OrderItem> OrderItems { get; set; }
         public DbSet<Domain.Table> Tables { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Menu>()
+                .HasMany(e => e.Choices)
+                .WithOne(e => e.Menu)
+                .OnDelete(DeleteBehavior.Cascade);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

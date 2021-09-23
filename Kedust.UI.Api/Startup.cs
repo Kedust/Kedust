@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Core;
 
 namespace Kedust.UI.Api
 {
@@ -24,7 +25,7 @@ namespace Kedust.UI.Api
 
             var seqConfig = new SeqConfig();
             Configuration.Bind("Seq", seqConfig);
-
+            
             Services.Startup.ConfigureServices(services);
             services.AddLogging(loggingBuilder =>
             {
@@ -53,11 +54,7 @@ namespace Kedust.UI.Api
                     .AllowAnyMethod()
                     .AllowAnyHeader()
             );
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

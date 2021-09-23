@@ -21,5 +21,13 @@ namespace Kedust.Data.Dal.EfImplementation
                 .SelectMany(m => m.Choices)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Choice>> GetByMenuId(int id)
+        {
+            return await Context
+                .MenuItems
+                .Where(mi => mi.Menu.Id == id)
+                .ToListAsync();
+        }
     }
 }

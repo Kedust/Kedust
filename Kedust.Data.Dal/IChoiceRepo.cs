@@ -8,5 +8,6 @@ namespace Kedust.Data.Dal
     public interface IChoiceRepo: IBaseRepo<Choice, int>
     {
         Task<IEnumerable<Choice>> GetByTableCode(string tableCode);
+        Task<IEnumerable<Choice>> GetByMenuId(int id);
     }
 }
