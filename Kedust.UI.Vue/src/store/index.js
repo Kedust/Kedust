@@ -1,7 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import appConfig from "@/config";
-import {fetchWithParam} from "@/helpers/FetchWithParam";
 
 Vue.use(Vuex);
 
@@ -49,41 +47,6 @@ const store = new Vuex.Store({
                 if (item.count < 0) item.count = 0;
             }
         },
-    },
-    actions: {
-        async checkTable(_, payload){
-
-            const response = await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Table_Check, {
-                queryParams: {code: payload},
-            });
-            const jsonResult = await response.json()
-            return jsonResult.success;
-        },
-
-        async updateMenu(state) {
-            state.commit('setLoading', true);
-            const code = state.getters.getTable;
-            const response = await fetchWithParam(appConfig.apiDomain + appConfig.apiPath_Menu, {
-                queryParams: {code}
-            });
-            state.commit('setMenu', await response.json());
-            state.commit('setLoading', false);
-        },
-        async sendOrder(context) {
-            let body = {
-                items: context.getters.getOrderItems,
-                table: context.getters.getTable
-            };
-
-            const response = await fetch(appConfig.apiDomain + appConfig.apiPath_SendOrder, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(body)
-            });
-            return response.ok;
-        }
     },
     getters: {
         getLoading: state => state.loading,

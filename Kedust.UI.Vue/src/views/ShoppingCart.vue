@@ -30,8 +30,9 @@
 
 <script>
 
-import {mapActions, mapGetters, mapMutations} from "vuex"
+import {mapGetters, mapMutations} from "vuex"
 import ShoppingCartChoice from "@/components/ShoppingCartChoice";
+import Gateway from "@/gateway";
 import Materialize from "materialize-css";
 
 export default {
@@ -55,15 +56,13 @@ export default {
     ...mapGetters({
       menu: "getOrderItems",
       itemCount: "getOrderCount",
-      price: "getOrderPrice"
+      price: "getOrderPrice",
+      table: "getTable"
     })
   },
   methods: {
-    ...mapActions({
-      sendOrder:"sendOrder",
-      updateMenu: "updateMenu"
-    }),
     ...mapMutations({
+      setMenu: "setMenu",
       loading: "setLoading"
     }),
     async goToMenu() {
@@ -71,15 +70,28 @@ export default {
     },
     async Send() {
       this.loading(true);
-      const success = await this.sendOrder()
-      if (success) {
-        await this.updateMenu()
-        this.loading(false)
-        await this.$router.push({name: 'ThankYou'});
-      } else {
-        this.loading(false);
-        Materialize.toast({html: "er is iets fout gegaan, probeer later opnieuw alstublieft", classes: "toast-danger"});
-      }
+
+      let body = {
+        items: this.menu,
+        table: this.table
+      };
+
+      Gateway.Order.post(body).then(async (result) => {
+            if (result) {
+              Gateway.Choice.getByTableCode(this.table).then((choices) => {
+                this.setMenu(choices);
+                this.loading(false)
+                this.$router.push({name: 'ThankYou'});
+              });
+            } else {
+              this.loading(false);
+              Materialize.toast({
+                html: "er is iets fout gegaan, probeer later opnieuw alstublieft",
+                classes: "toast-danger"
+              });
+            }
+          }
+      );
     }
   }
 }

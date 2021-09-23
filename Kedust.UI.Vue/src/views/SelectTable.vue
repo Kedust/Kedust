@@ -25,6 +25,7 @@
 <script>
 import {mapMutations, mapActions, mapGetters} from "vuex";
 import Materialize from "materialize-css";
+import Gateway from "@/gateway";
 
 export default {
   name: 'SelectTable',
@@ -45,15 +46,21 @@ export default {
   async mounted() {
     const table = this.$route.params.code;
     if (table !== undefined) {
-      if (await this.checkTable(this.input)) {
-        this.setTable(table);
-        await this.updateMenu();
-        await this.$router.push({name: 'Menu'});
-      }
-      else {
-        Materialize.toast({html: "Sorry, die tafel vinden we niet terug...</br>Geef de code hierboven in alstublieft", classes: "toast-danger"});
-        this.loading(false);
-      }
+      this.checkTable(this.input).then(async (result) => {
+        if (result) {
+          this.setTable(table);
+          await this.updateMenu();
+          await this.$router.push({name: 'Menu'});
+        } else {
+          Materialize.toast({
+            html: "Sorry, die tafel vinden we niet terug...</br>Geef de code hierboven in alstublieft",
+            classes: "toast-danger"
+          });
+          this.loading(false);
+        }
+      });
+
+
     }
 
     if (this.table !== undefined) {
@@ -63,6 +70,7 @@ export default {
   methods: {
     ...mapMutations({
       setTable: "setTable",
+      setMenu: "setMenu",
       loading: "setLoading"
     }),
     ...mapActions({
@@ -75,15 +83,21 @@ export default {
     async setTableCode(e) {
       e.preventDefault();
       this.loading(true);
-      if (await this.checkTable(this.input)) {
-        this.setTable(this.input);
-        await this.updateMenu();
-        this.loading(false);
-        await this.$router.push({name: 'Menu'});
-      } else {
-        Materialize.toast({html: "Sorry, die tafel vinden we niet terug...", classes: "toast-danger"});
-        this.loading(false);
-      }
+      Gateway.Table.checkCode(this.input)
+          .then((response) => {
+                if (response.success) {
+                  this.setTable(this.input);
+                  return Gateway.Choice.getByTableCode(this.input).then(async (choicesResult) => {
+                    this.setMenu(choicesResult)
+                    this.loading(false);
+                    await this.$router.push({name: 'Menu'});
+                  });
+                } else {
+                  Materialize.toast({html: "Sorry, die tafel vinden we niet terug...", classes: "toast-danger"});
+                  this.loading(false);
+                }
+              }
+          );
     }
   }
 }

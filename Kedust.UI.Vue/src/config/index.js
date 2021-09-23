@@ -1,8 +1,16 @@
 const config = {
-    apiDomain: "https://localhost:5001",
-    apiPath_Table_Check: "/Table/CheckCode",
-    apiPath_Menu: "/Choice",
-    apiPath_SendOrder: "/Order"
+    api: {
+        domain: "https://api.kedust.be",
+        table: {
+            checkCode: "/Table/CheckCode"
+        },
+        choice:{
+            getByTableCode: "/Choice/GetByTableCode"
+        },
+        order:{
+            post : "/Order"
+        }
+    }
 };
 
 export default config;

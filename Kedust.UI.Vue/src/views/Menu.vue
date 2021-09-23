@@ -4,7 +4,7 @@
       <TableButton/>
       <ChoiceButton v-for="item in menu" :key="item.id" :item="item"/>
     </div>
-    <ShoppingCartButton v-if="itemCount>0"></ShoppingCartButton>
+    <ShoppingCartButton v-if="itemCount>0"/>
   </div>
 </template>
 
