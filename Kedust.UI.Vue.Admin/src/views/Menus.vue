@@ -31,17 +31,17 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import Gateways from "@/gateway";
 
 export default {
   name: "Menus",
-  async mounted() {
-    await this.$store.dispatch("menus__update_all");
+  data(){
+    return{
+      menus:[]
+    }
   },
-  computed:{
-    ...mapGetters({
-      menus: "getMenus"
-    })
+  async mounted() {
+    Gateways.Menu.getAll().then((data) => this.menus = data);
   }
 }
 </script>

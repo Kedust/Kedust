@@ -3,14 +3,14 @@
   <div class="container">
     <div class="section">
 
-      <h3>Menu</h3>
+      <h3>{{menu.name}}</h3>
       <form class="col s12">
         <div class="row">
           <div class="input-field col s6">
-            <button v-if='id === undefined' class="btn waves-effect waves-light">Aanmaken
+            <button v-if='this.menu === undefined' class="btn waves-effect waves-light">Aanmaken
               <i class="material-icons left">add</i>
             </button>
-            <button v-if='id !== undefined' class="btn waves-effect waves-light">Opslaan
+            <button v-if='this.menu !== undefined' class="btn waves-effect waves-light">Opslaan
               <i class="material-icons left">save</i>
             </button>
           </div>
@@ -18,37 +18,65 @@
       </form>
     </div>
 
-    <div class="section">
-      <ImgBase64Upload className="img"></ImgBase64Upload>
-      <ImgBase64Upload className="img"></ImgBase64Upload>
-      <ImgBase64Upload className="img"></ImgBase64Upload>
-    </div>
+    <TableChoice :items="items"></TableChoice>
+
+<!--    <div class="section" v-if="items !== undefined">-->
+<!--      -->
+<!--      -->
+<!--      <ImgUpload-->
+<!--          v-for="item in items"-->
+<!--          :image="item.image"-->
+<!--          v-on:selected="imageUpdated($event, item)"-->
+<!--          :key="item.id"></ImgUpload>-->
+<!--    </div>-->
   </div>
 
 </template>
 
 <script>
 import M from 'materialize-css';
-import ImgBase64Upload from '@/components/ImgUpload'
+import Gateway from "@/gateway"
+import TableChoice from "@/components/Menu/TableChoice";
 
 export default {
   name: "Menus",
-  data() {
-    return {
-      id: this.$route.params.id,
-    }
-  },
   mounted() {
+    if (this.$route.params.id !== undefined) {
+      Gateway.Menu.get(this.$route.params.id)
+      .then(data => this.menu = data);
+      Gateway.Choice.getByMenu(this.$route.params.id)
+      .then(data => this.items = data);
+
+      this.isNew = false;
+    }
+    else{
+      this.isNew = true;
+      this.menu = {
+        name:""
+      };
+    }
     M.updateTextFields();
   },
+  data() {
+    return {
+      isNew: true,
+      menu: {},
+      items: []
+    };
+  },
+  methods: {
+    imageUpdated(selectedDate, item) {
+      item.image = selectedDate;
+    }
+  },
   components: {
-    ImgBase64Upload
+    TableChoice
   }
 }
 </script>
 
 <style scoped>
-/deep/.img{
+/deep/ .img {
   height: 5rem;
 }
 </style>

@@ -1,6 +1,14 @@
 const config = {
-    apiDomain: "https://localhost:5001",
-    apiPath_Menus_GetAll: "/Menu/GetAll",
+    api: {
+        domain: "https://api.kedust.be",
+        menu: {
+            getAll: "/Menu/GetAll",
+            get: "/Menu"
+        },
+        choice:{
+            getByMenu: "/Choice/GetByMenu"
+        }
+    }
 };
 
 export default config;

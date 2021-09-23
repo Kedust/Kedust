@@ -1,18 +1,13 @@
 <template>
   <input ref="upload" @change="handleImage" class="hidden" type="file" accept="image/*">
-  <img @click="promptNewImage" class="img" :src="this.image" alt="">
+  <img @click="promptNewImage" class="img" :src="this.image ?? require('@/assets/no_image.svg')" alt="">
 </template>
 
 <script>
 export default {
   name: "ImgBase64Upload",
-  props:{
-    className: String
-  },
-  data() {
-    return {
-      image: require("@/assets/no_image.svg")
-    }
+  props: {
+    image: String
   },
   methods: {
     handleImage(e) {
@@ -23,10 +18,10 @@ export default {
       let reader = new FileReader();
       reader.readAsDataURL(fileObject);
       reader.onload = function () {
-        this.image = reader.result;
+        this.$emit("selected", reader.result);
       }.bind(this);
     },
-    promptNewImage(){
+    promptNewImage() {
       this.$refs["upload"].click();
     }
   }
