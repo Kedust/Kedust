@@ -28,6 +28,11 @@ export default {
 </script>
 
 <style scoped>
+
+.material-icons {
+  vertical-align: top;
+}
+
 .flex-container {
   display: flex;
   justify-content: space-between;
