@@ -2,10 +2,10 @@ const config = {
     api: {
         domain: "https://api.kedust.be",
         table: {
-            checkCode: "/Table/CheckCode"
+            checkCode: "/Table/CheckCode/{tableCode}"
         },
-        choice:{
-            getByTableCode: "/Choice/GetByTableCode"
+        menu:{
+            getByTableCode: "/Menu/Table/{tableCode}"
         },
         order:{
             post : "/Order"

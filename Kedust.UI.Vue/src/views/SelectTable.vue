@@ -85,9 +85,9 @@ export default {
       this.loading(true);
       Gateway.Table.checkCode(this.input)
           .then((response) => {
-                if (response.success) {
+                if (response) {
                   this.setTable(this.input);
-                  return Gateway.Choice.getByTableCode(this.input).then(async (choicesResult) => {
+                  return Gateway.Menu.getByTableCode(this.input).then(async (choicesResult) => {
                     this.setMenu(choicesResult)
                     this.loading(false);
                     await this.$router.push({name: 'Menu'});

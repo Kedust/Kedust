@@ -78,7 +78,7 @@ export default {
 
       Gateway.Order.post(body).then(async (result) => {
             if (result) {
-              Gateway.Choice.getByTableCode(this.table).then((choices) => {
+              Gateway.Menu.getByTableCode(this.table).then((choices) => {
                 this.setMenu(choices);
                 this.loading(false)
                 this.$router.push({name: 'ThankYou'});

@@ -1,8 +1,8 @@
-import choiceGateway from "@/gateway/choice"
-import tableGateway from "@/gateway/table"
+import menuGateway from "@/gateway/menu"
 import orderGateway from "@/gateway/order"
+import tableGateway from "@/gateway/table"
 export default {
-    Choice: choiceGateway,
-    Table: tableGateway,
-    Order: orderGateway
+    Menu: menuGateway,
+    Order: orderGateway,
+    Table: tableGateway
 }
