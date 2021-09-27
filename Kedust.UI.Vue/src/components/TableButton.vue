@@ -8,11 +8,8 @@
 
       <div>
         <span>
-          <i class="border material-icons" @click="goTo('Table')">edit</i>
+          <i class="material-icons" @click="goTo('Table')">edit</i>
         </span>
-<!--        <span>-->
-<!--          <i class="border material-icons" @click="goTo('TableHistory')">history</i>-->
-<!--        </span>-->
       </div>
     </div>
   </div>
@@ -44,15 +41,14 @@ export default {
   justify-content: space-between;
 }
 
-.border{
-  margin-left: 1rem;
-  padding: 0.5rem;
+.material-icons{
+  vertical-align: top;
 }
 
 .table-cart {
   font-size: 1.25rem;
   background-color: #26a69a;
   color: white;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 1rem;
 }
 </style>
