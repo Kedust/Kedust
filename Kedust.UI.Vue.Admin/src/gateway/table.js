@@ -2,24 +2,24 @@ import axios from "axios";
 import appConfig from "@/config";
 
 export default {
-    name: "Menu",
+    name: "Table",
     getAll() {
-        return axios.get(appConfig.api.domain + appConfig.api.menu.getAll)
+        return axios.get(appConfig.api.domain + appConfig.api.table.getAll)
             .then((response) => response.data);
     },
     get(id) {
-        let url = appConfig.api.domain + appConfig.api.menu.get;
+        let url = appConfig.api.domain + appConfig.api.table.get;
         url = url.replace("{id}", id)
         return axios
             .get(url)
             .then((response) => response.data);
     },
-    save(menu) {
-        return axios.put(appConfig.api.domain + appConfig.api.menu.post, menu)
+    save(table) {
+        return axios.put(appConfig.api.domain + appConfig.api.table.post, table)
             .then((response) => response.data);
     },
     delete(id) {
-        let url = appConfig.api.domain + appConfig.api.menu.delete;
+        let url = appConfig.api.domain + appConfig.api.table.delete;
         url = url.replace("{id}", id)
         return axios
             .delete(url)

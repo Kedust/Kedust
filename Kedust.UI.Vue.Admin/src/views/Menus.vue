@@ -1,35 +1,31 @@
 <template>
 
-  <div class="container">
-    <div class="section">
+  <div class="section">
 
-      <div class="waves-effect btn" @click="this.$router.push({name: 'MenuNew'})">
-        <i  class="material-icons left">add</i> Nieuw
-      </div>
-
-
-      <table class="striped responsive-table">
-        <thead>
-        <tr>
-          <th>Menunaam</th>
-          <th></th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr v-for='item in menus' :key='item.id'>
-          <td>{{ item.name }}</td>
-          <td class="right-align">
-            <div class="waves-effect btn" @click="this.$router.push({name: 'MenuEdit', params:{id: item.id}})"><i
-                class="material-icons">edit</i></div>
-            <div class="waves-effect btn red" @click="Delete(item)"><i class="material-icons">delete</i></div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-
+    <div class="waves-effect btn" @click="this.$router.push({name: 'MenuNew'})">
+      <i class="material-icons left">add</i> Nieuw
     </div>
-    <br><br>
+
+
+    <table class="striped responsive-table">
+      <thead>
+      <tr>
+        <th>Menunaam</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr v-for='item in menus' :key='item.id'>
+        <td>{{ item.name }}</td>
+        <td class="right-align">
+          <div class="waves-effect btn" @click="this.$router.push({name: 'MenuEdit', params:{id: item.id}})"><i
+              class="material-icons">edit</i></div>
+          <div class="waves-effect btn red" @click="Delete(item)"><i class="material-icons">delete</i></div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 
 </template>

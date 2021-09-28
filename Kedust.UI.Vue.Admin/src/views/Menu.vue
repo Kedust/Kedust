@@ -7,7 +7,7 @@
   <h4>Keuzes</h4>
 
   <button class="btn waves-effect right" @click="save"
-          v-if="JSON.stringify(items)!==JSON.stringify(oldItems) || JSON.stringify(menu)!==JSON.stringify(oldMenu)"><i
+          v-if="JSON.stringify(menu)!==JSON.stringify(originalMenu)"><i
       class="material-icons left">save</i>Opslaan
   </button>
   <button class="btn waves-effect right" @click="addItem"><i class="material-icons left">add</i>Nieuw</button>
@@ -23,21 +23,21 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in items" :key="item.id">
+    <tr v-for="choice in menu.choices" :key="choice.id">
       <td>
-        <button class="btn btn-small waves-effect" @click="sortUp(item)"><i class="material-icons">keyboard_arrow_up</i>
+        <button class="btn btn-small waves-effect" @click="sortUp(choice)"><i class="material-icons">keyboard_arrow_up</i>
         </button>
-        <button class="btn btn-small waves-effect" @click="sortDown(item)"><i
+        <button class="btn btn-small waves-effect" @click="sortDown(choice)"><i
             class="material-icons">keyboard_arrow_down</i></button>
       </td>
       <td>
-        <ImgUpload v-model:image="item.image"/>
+        <ImgUpload v-model:image="choice.image"/>
       </td>
-      <td><input type="text" v-model="item.name"/></td>
-      <td><input type="text" v-model="item.description"/></td>
-      <td><input type="number" v-model="item.price"/></td>
+      <td><input type="text" v-model="choice.name"/></td>
+      <td><input type="text" v-model="choice.description"/></td>
+      <td><input type="number" v-model="choice.price"/></td>
       <td>
-        <button class="btn" @click="deleteItem(item)"><i class="material-icons">delete</i></button>
+        <button class="btn" @click="deleteItem(choice)"><i class="material-icons">delete</i></button>
       </td>
     </tr>
     </tbody>
@@ -56,9 +56,7 @@ export default {
   data() {
     return {
       menu: {},
-      items: [],
-      oldItems: [],
-      oldMenu: {}
+      originalMenu: {}
     };
   },
   components: {
@@ -67,31 +65,32 @@ export default {
   methods: {
     updateMenu(id) {
       if (id !== undefined) {
-        let menu = Gateway.Menu.get(id);
-        let choices = Gateway.Choice.getByMenu(id);
-        Promise.all([menu, choices]).then(values => {
-          this.menu = values[0];
-          this.items = values[1].sort(function (a, b) {
-            return a.sorting - b.sorting;
-          });
-          this.oldItems = [...this.items];
-          this.oldMenu = {...this.menu};
+        Gateway.Menu.get(id).then(value => {
+          this.menu = value;
+          this.sortItems();
+          this.originalMenu = {...this.menu, choices:[...this.menu.choices]};
         });
       } else {
-        this.menu = {};
-        this.items = [];
-        this.oldMenu = {};
-        this.oldItems = [];
+        this.menu = {choices:[]};
+        this.originalMenu = {choices:[]};
       }
     },
+    sortItems() {
+      this.menu.choices = this.menu.choices.sort(function (a, b) {
+        return a.sorting - b.sorting;
+      });
+    },
     addItem() {
-      this.items.push({price: 0})
+      let value = 1;
+      if(this.menu.choices.length > 0)
+      value = Math.max.apply(Math, this.menu.choices.map(function (o) {return o.sorting})) + 1;
+      this.menu.choices.push({price: 0, sorting: value})
     },
     deleteItem(item) {
-      this.items = this.items.filter((i) => item !== i);
+      this.menu.choices = this.menu.choices.filter((i) => item !== i);
     },
     save() {
-      Gateway.Choice.saveByMenu(this.menu, this.items)
+      Gateway.Menu.save(this.menu)
           .then((data) => {
             this.updateMenu(data);
           });
@@ -99,24 +98,20 @@ export default {
     },
 
     sortUp(item) {
-      let swapItem = this.items.find(i => i.sorting === item.sorting - 1);
+      let swapItem = this.menu.choices.find(i => i.sorting === item.sorting - 1);
       if (swapItem === undefined) return;
       let temp = swapItem.sorting;
       swapItem.sorting = item.sorting;
       item.sorting = temp;
-      this.items = this.items.sort(function (a, b) {
-        return a.sorting - b.sorting;
-      });
+      this.sortItems()
     },
     sortDown(item) {
-      let swapItem = this.items.find(i => i.sorting === item.sorting + 1);
+      let swapItem = this.menu.choices.find(i => i.sorting === item.sorting + 1);
       if (swapItem === undefined) return;
       let temp = swapItem.sorting;
       swapItem.sorting = item.sorting;
       item.sorting = temp;
-      this.items = this.items.sort(function (a, b) {
-        return a.sorting - b.sorting;
-      });
+      this.sortItems()
     }
   }
 }

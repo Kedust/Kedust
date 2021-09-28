@@ -4,6 +4,7 @@ import Menus from "@/views/Menus";
 import Orders from "@/views/Orders";
 import Menu from "@/views/Menu";
 import Dashboard from "@/views/Dashboard";
+import Table from "@/views/Table";
 
 const routes = [
 
@@ -20,6 +21,14 @@ const routes = [
     path: '/Tables',
     name: 'Tables',
     component: Tables
+  },{
+    path: '/Table/:id',
+    name: 'TableEdit',
+    component: Table
+  },{
+    path: '/Table',
+    name: 'TableNew',
+    component: Table
   },{
     path: '/Menus',
     name: 'Menus',

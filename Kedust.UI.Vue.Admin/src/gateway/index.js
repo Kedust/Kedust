@@ -1,7 +1,6 @@
 import menuGateway from "@/gateway/menu"
-import choiceGateway from "@/gateway/choice"
-
+import tableGateway from "@/gateway/table"
 export default {
     Menu: menuGateway,
-    Choice: choiceGateway
+    Table: tableGateway
 }

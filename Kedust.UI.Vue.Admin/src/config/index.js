@@ -1,14 +1,18 @@
 const config = {
     api: {
-        domain: "https://api.kedust.be",
+        domain: "https://localhost:5001",
         menu: {
-            getAll: "/Menu/GetAll",
-            get: "/Menu",
-            delete: "/Menu"
+            getAll: "/Menu",
+            get: "/Menu/{id}",
+            delete: "/Menu/{id}",
+            update: "/Menu",
+            post: "/Menu"
         },
-        choice:{
-            getByMenu: "/Choice/GetByMenu",
-            saveByMenu: "/Choice/SaveByMenu"
+        table: {
+            getAll: "/Table",
+            post: "/Table",
+            get: "/Table/{id}",
+            delete: "/Table/{id}"
         }
     }
 };
