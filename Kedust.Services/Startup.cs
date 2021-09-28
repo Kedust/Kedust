@@ -1,6 +1,5 @@
 ﻿using Kedust.Services.Implementation;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Kedust.Services
 {

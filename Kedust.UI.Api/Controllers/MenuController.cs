@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Kedust.Services;
-using Kedust.Services.Menu;
+using Kedust.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -26,16 +26,15 @@ namespace Kedust.UI.Api.Controllers
         [HttpGet("{id:int}")]
         public Task<Menu> GetById(int id) => _menuService.GetById(id);
 
-        [HttpGet("Table/{tableCode}")]
-        public async Task<IEnumerable<Choice>> GetByTableCode(string tableCode)
-        {
-            return await _menuService.GetByTableCode(tableCode);
-        }
-
         [HttpPut]
         public async Task<int> Put(Menu request) => await _menuService.Save(request);
 
         [HttpDelete("{id:int}")]
         public async Task<bool> Delete(int id) => await _menuService.Delete(id);
-    }
+
+        [HttpGet("Table/{tableCode}")]
+        public async Task<IEnumerable<Choice>> GetByTableCode(string tableCode)
+        {
+            return await _menuService.GetByTableCode(tableCode);
+        }    }
 }

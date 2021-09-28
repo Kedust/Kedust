@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Kedust.Data.Domain;
-using Kedust.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -37,7 +36,6 @@ namespace Kedust.UI.Api.Controllers
                     Description = x.Description,
                     Name = x.Name,
                     Price = x.Price,
-                    Category = x.Category
                 }
             }).ToList();
             

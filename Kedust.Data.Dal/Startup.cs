@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using Kedust.Data.Dal.EfImplementation;
+﻿using Kedust.Data.Dal.EfImplementation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

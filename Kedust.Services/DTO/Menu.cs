@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Kedust.Services.Menu
+namespace Kedust.Services.DTO
 {
     public class Menu
     {

@@ -1,4 +1,3 @@
-using System;
 using AutoMapper;
 
 namespace Kedust.Services.Profiles
@@ -7,14 +6,11 @@ namespace Kedust.Services.Profiles
     {
         public MenuProfiles()
         {
-            CreateMap<Data.Domain.Choice, Menu.Choice>().ReverseMap();
-            CreateMap<Data.Domain.Menu, Menu.Menu>()
+            CreateMap<Data.Domain.Choice, DTO.Choice>().ReverseMap();
+            CreateMap<Data.Domain.Menu, DTO.Menu>()
                 .ForMember(x => x.Choices, map => map.MapFrom(m =>m.Choices))
                 .ReverseMap();
-            
-            CreateMap<Data.Domain.Table, Menu.Table>()
-                .ForMember(x => x.Menu, map => map.MapFrom(t => t.Menu))
-                .ReverseMap();
+            CreateMap<Data.Domain.Table, DTO.Table>().ReverseMap();
         }
     }
 }

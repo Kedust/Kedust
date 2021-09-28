@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Kedust.Data.Domain;
+﻿using Kedust.Data.Domain;
 
 namespace Kedust.Data.Dal
 {
