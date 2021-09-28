@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kedust.Data.Domain;
 
 namespace Kedust.Services
 {
     public interface IMenuService
     {
-        Task<int> Save(Menu menu, IEnumerable<Choice> choices);
+        Task<Menu.Menu> GetById(int id);
+        Task<int> Save(Menu.Menu menu);
+        Task<IEnumerable<Menu.Menu>> GetAll();
+        Task<IEnumerable<Menu.Choice>> GetByTableCode(string tableCode);
+        Task<bool> Delete(int id);
     }
 }

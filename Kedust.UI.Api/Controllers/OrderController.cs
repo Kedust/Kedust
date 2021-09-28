@@ -13,12 +13,9 @@ namespace Kedust.UI.Api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
-        private readonly IPrintService _printService;
-
-        public OrderController(ILogger<OrderController> logger, IPrintService printService)
+        public OrderController(ILogger<OrderController> logger)
         {
             _logger = logger;
-            _printService = printService;
         }
 
         public class PostRequest

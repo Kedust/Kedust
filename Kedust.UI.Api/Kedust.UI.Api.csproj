@@ -10,7 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kedust.Data.Domain\Kedust.Data.Domain.csproj" />
       <ProjectReference Include="..\Kedust.Services\Kedust.Services.csproj" />
     </ItemGroup>
 

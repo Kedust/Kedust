@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kedust.Data.Dal;
-using Kedust.Data.Domain;
+using Kedust.Services;
+using Kedust.Services.Menu;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,31 +16,29 @@ namespace Kedust.UI.Api.Controllers
     {
         private readonly ILogger<TableController> _logger;
         private readonly ITableRepo _tableRepo;
+        private readonly ITableService _tableService;
 
-        public TableController(ILogger<TableController> logger, ITableRepo tableRepo)
+        public TableController(ILogger<TableController> logger, ITableRepo tableRepo, ITableService tableService)
         {
             _logger = logger;
             _tableRepo = tableRepo;
+            _tableService = tableService;
         }
 
-        [HttpGet("CheckCode")]
-        public async Task<IActionResult> CheckCode(string code)
+        [HttpGet]
+        public async Task<IEnumerable<Table>> GetAll()
         {
-            _logger.LogInformation($"GET /Table/CheckCode?code={code}");
-            bool codeExists = await _tableRepo.CodeExists(code);
-            return Ok(new CheckCodeResponse
-            {
-                Success = codeExists
-            });
+            var data = await _tableService.GetAll();
+            return data;
         }
         
-        public class CheckCodeRequest
+        [HttpGet("{id:int}")]
+        public Task<Table> GetById(int id) => _tableService.GetById(id);
+
+        [HttpGet("CheckCode/{tableCode}")]
+        public async Task<bool> CheckCode(string tableCode)
         {
-            public string Code { get; set; }
-        }
-        public class CheckCodeResponse
-        {
-            public bool Success { get; set; }
+            return await _tableRepo.CodeExists(tableCode);
         }
     }
 }

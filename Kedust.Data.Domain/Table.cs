@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kedust.Data.Domain
 {
@@ -7,13 +8,9 @@ namespace Kedust.Data.Domain
     {
         public string Code { get; set; }
         public string Description { get; set; }
-        
+
         public ICollection<Order> Orders { get; set; }
         public Menu Menu { get; set; }
-
-        public override string ToString()
-        {
-            return $"Id:{Id} Code:{Code} Description:{Description} Menu:{Menu?.Id??'/'} Count:{Orders?.Count??'/'}";
-        }
+        [ForeignKey("Menu")] public int MenuId { get; set; }
     }
 }

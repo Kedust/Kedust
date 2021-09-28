@@ -1,63 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Kedust.Data.Dal;
-using Kedust.Data.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kedust.Services.Implementation
 {
     public class MenuService : IMenuService
     {
+        private readonly IMapper _mapper;
         private readonly IMenuRepo _menuRepo;
         private readonly IChoiceRepo _choiceRepo;
 
-        public MenuService(IChoiceRepo choiceRepo, IMenuRepo menuRepo)
+        public MenuService(IChoiceRepo choiceRepo, IMenuRepo menuRepo, IMapper mapper)
         {
             _choiceRepo = choiceRepo;
             _menuRepo = menuRepo;
+            _mapper = mapper;
         }
 
-        public async Task<int> Save(Menu menu, IEnumerable<Choice> choices)
+        public async Task<IEnumerable<Menu.Menu>> GetAll()
         {
-            bool isExistingMenu = menu.Id > 0;
+            return _mapper.Map<IEnumerable<Menu.Menu>>(await _menuRepo.GetAll().ToListAsync());
+        }
 
+        public async Task<IEnumerable<Menu.Choice>> GetByTableCode(string tableCode)
+        {
+            return _mapper.Map<IEnumerable<Menu.Choice>>(await _choiceRepo.GetByTableCode(tableCode));
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var menu = await _menuRepo.GetById(id);
+            if (menu == null) return false;
+            var result = await _menuRepo.Delete(menu);
+            return result != null;
+        }
+
+        public async Task<Services.Menu.Menu> GetById(int id)
+        {
+            var menu = await _menuRepo.GetById(id, menus => menus.Include(m => m.Choices));
+            return _mapper.Map<Services.Menu.Menu>(menu);
+        }
+
+        public async Task<int> Save(Services.Menu.Menu request)
+        {
+            var menu = _mapper.Map<Data.Domain.Menu>(request);
+            bool isExistingMenu = menu.Id > 0;
             if (isExistingMenu)
             {
                 await _menuRepo.Update(menu);
-
-                var existingChoices = await _choiceRepo.GetByMenuId(menu.Id);
-                var newChoices = choices.ToList();
-
-                foreach (var removedChoice in
-                    existingChoices.Where(ec => !newChoices.Select(x => x.Id).Contains(ec.Id)))
-                {
-                    await _choiceRepo.Delete(removedChoice);
-                }
-
-                foreach (var updateChoice in newChoices.Where(c => c.Id > 0))
-                {
-                    await _choiceRepo.Update(updateChoice);
-                }
-
-                foreach (var choice in newChoices.Where(c => c.Id == 0))
-                {
-                    choice.MenuId = menu.Id;
-                    var data = await _choiceRepo.Insert(choice);
-                    Console.Write(data);
-                }
-
                 return menu.Id;
             }
             else
             {
                 var newMenu = await _menuRepo.Insert(menu);
-                foreach (var choice in choices)
-                {
-                    choice.MenuId = newMenu.Id;
-                    await _choiceRepo.Insert(choice);
-                }
-
                 return newMenu.Id;
             }
         }

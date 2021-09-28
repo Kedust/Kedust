@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kedust.Data.Dal;
-using Kedust.Data.Domain;
+using Kedust.Services;
+using Kedust.Services.Menu;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -15,22 +12,30 @@ namespace Kedust.UI.Api.Controllers
     public class MenuController : ControllerBase
     {
         private readonly ILogger<MenuController> _logger;
-        private readonly IMenuRepo _menuRepo;
+        private readonly IMenuService _menuService;
 
-        public MenuController(ILogger<MenuController> logger, IMenuRepo menuRepo)
+        public MenuController(ILogger<MenuController> logger, IMenuService menuService)
         {
             _logger = logger;
-            _menuRepo = menuRepo;
+            _menuService = menuService;
         }
 
-        [HttpGet("GetAll")]
-        public Task<IEnumerable<Menu>> GetAll() => Task.FromResult(_menuRepo.GetAll());
+        [HttpGet]
+        public Task<IEnumerable<Menu>> GetAll() => _menuService.GetAll();
 
-        [HttpGet(Name = "GetById")]
-        public Task<Menu> GetById(int id) => _menuRepo.GetById(id);
-        
-        [HttpDelete]
-        public async Task Delete(int id) => await _menuRepo.Delete(await _menuRepo.GetById(id));
+        [HttpGet("{id:int}")]
+        public Task<Menu> GetById(int id) => _menuService.GetById(id);
 
+        [HttpGet("Table/{tableCode}")]
+        public async Task<IEnumerable<Choice>> GetByTableCode(string tableCode)
+        {
+            return await _menuService.GetByTableCode(tableCode);
+        }
+
+        [HttpPut]
+        public async Task<int> Put(Menu request) => await _menuService.Save(request);
+
+        [HttpDelete("{id:int}")]
+        public async Task<bool> Delete(int id) => await _menuService.Delete(id);
     }
 }

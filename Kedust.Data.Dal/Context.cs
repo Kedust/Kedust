@@ -13,7 +13,7 @@ namespace Kedust.Data.Dal
         }
         
         public DbSet<Domain.Menu> Menus { get; set; }
-        public DbSet<Domain.Choice> MenuItems { get; set; }
+        public DbSet<Domain.Choice> Choices { get; set; }
         public DbSet<Domain.Order> Orders { get; set; }
         public DbSet<Domain.OrderItem> OrderItems { get; set; }
         public DbSet<Domain.Table> Tables { get; set; }
