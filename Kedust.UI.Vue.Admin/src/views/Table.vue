@@ -1,41 +1,53 @@
 <template>
+  <button class="btn waves-effect right" @click="save"
+          :class="{disabled: JSON.stringify(table)===JSON.stringify(originalTable)}"><i
+      class="material-icons left">save</i>Opslaan
+  </button>
+  <h1>
+    <i class="material-icons" @click="goToOverview">arrow_back</i>
+    Tafel
+  </h1>
+  <section>
+    <div class="input-field">
+      <input id="code" type="text" v-model="table.code">
+      <label for="code" class="active">Code</label>
+    </div>
 
-  <div class="input-field">
-    <input id="code" type="text" v-model="table.code">
-    <label for="code">Code</label>
-  </div>
+    <div class="input-field">
+      <input id="description" type="text" v-model="table.description">
+      <label for="description" class="active">Description</label>
+    </div>
 
-  <div class="input-field">
-    <input id="description" type="text" v-model="table.description">
-    <label for="description">Description</label>
-  </div>
-
-  <select v-if="table.menu" class="browser-default" v-model="table.menu.id">
-    <option v-for="menu in menus" :key="menu.id" :value="menu.id">{{ menu.name }}</option>
-  </select>
+    <select class="browser-default" v-model="table.menuId">
+      <option v-for="menu in menus" :key="menu.id" :value="menu.id">{{ menu.name }}</option>
+    </select>
+  </section>
 </template>
 
 <script>
 import Gateway from "@/gateway";
-import M from "materialize-css";
 
 export default {
   name: "Table",
   mounted() {
     this.updateMenus();
     this.updateTable(this.$route.params.id);
-
-    M.updateTextFields();
-
   },
   data() {
     return {
       menus: [],
-      table: {},
-      originalTable: {}
+      table: {
+        code:"",
+        description:"",
+        menuId:0
+      },
+      originalTable: {menuId:0}
     };
   },
   methods: {
+    goToOverview() {
+      this.$router.push({name: 'Tables'})
+    },
     updateMenus() {
       Gateway.Menu.getAll().then((data => this.menus = data));
     },
@@ -51,9 +63,9 @@ export default {
       }
     },
     save() {
-      Gateway.Table.put(this.table)
+      Gateway.Table.save(this.table)
           .then((data) => {
-            this.updateMenu(data);
+            this.updateTable(data);
           });
 
     }

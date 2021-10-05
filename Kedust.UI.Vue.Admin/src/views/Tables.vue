@@ -2,6 +2,7 @@
 
   <div class="section">
 
+    <h1>Tafels</h1>
 
     <table class="striped responsive-table">
       <thead>
@@ -9,7 +10,8 @@
         <th>Tafelcode</th>
         <th>Beschrijving</th>
         <th>Menu</th>
-        <th></th>
+        <th><span class="waves-effect btn right" @click="this.$router.push({name: 'TableNew'})"><i
+            class="material-icons">add</i></span></th>
       </tr>
       </thead>
 
@@ -18,7 +20,7 @@
       <tr v-for="table in tables" :key="table.id">
         <td>{{ table.code }}</td>
         <td>{{ table.description }}</td>
-        <td>{{ table.menu.name }}</td>
+        <td>{{ this.menuById(table.menuId) }}</td>
         <td class="right-align">
           <div class="waves-effect btn" @click="this.$router.push({name: 'TableEdit', params:{id: table.id}})"><i
               class="material-icons">edit</i></div>
@@ -35,27 +37,45 @@
 <script>
 
 import Gateways from "@/gateway"
+import {mapMutations} from "vuex";
 
 export default {
   name: "Tables",
   data() {
     return {
       tables: [],
+      menus: []
     }
   },
   mounted() {
     this.updateTables();
   },
   methods: {
+    ...mapMutations({
+      setLoading: "setLoading"
+    }),
+    menuById(id){
+      return this.menus.find(m => m.id === id).name
+    },
     updateTables() {
-      Gateways.Table.getAll().then((data) =>
-          this.tables = data
-      )
+      this.setLoading(true);
+      Gateways.Menu.getAll().then((m) => {
+        this.menus = m;
+        Gateways.Table.getAll().then((data) => {
+              this.tables = data;
+              this.setLoading(false);
+            }
+        );
+
+      });
     },
     delete(item) {
+
+      this.setLoading(true);
       Gateways.Table.delete(item.id).then(d => {
         if (d)
-          this.$router.push({name: "Tables"})
+          this.$router.push({name: "Tables"});
+        this.setLoading(false);
       })
     }
   }
@@ -64,6 +84,6 @@ export default {
 
 <style scoped>
 .btn {
-  margin-right: 1rem;
+  margin-left: 1rem;
 }
 </style>

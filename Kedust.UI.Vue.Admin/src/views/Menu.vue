@@ -1,16 +1,16 @@
 <template>
-
-  <h3>Menu</h3>
-
-  <input type="text" v-model="menu.name"/>
-
-  <h4>Keuzes</h4>
-
   <button class="btn waves-effect right" @click="save"
-          v-if="JSON.stringify(menu)!==JSON.stringify(originalMenu)"><i
+          :class="{disabled: JSON.stringify(menu)===JSON.stringify(originalMenu)}"><i
       class="material-icons left">save</i>Opslaan
-  </button>
-  <button class="btn waves-effect right" @click="addItem"><i class="material-icons left">add</i>Nieuw</button>
+  </button>  <h1>
+    <i class="material-icons" @click="this.$router.push({name: 'Menus'})">arrow_back</i>
+    Menu
+  </h1>
+  <div class="input-field">
+    <input id="name" type="text" v-model="menu.name">
+    <label for="name" class="active">Naam</label>
+  </div>
+  <h4>Keuzes</h4>
   <table>
     <thead>
     <tr>
@@ -19,15 +19,18 @@
       <th>Naam</th>
       <th>Omschrijving</th>
       <th>Prijs</th>
-      <th></th>
+      <th>
+        <button class="btn waves-effect" @click="addItem"><i class="material-icons">add</i></button>
+      </th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="choice in menu.choices" :key="choice.id">
       <td>
-        <button class="btn btn-small waves-effect" @click="sortUp(choice)"><i class="material-icons">keyboard_arrow_up</i>
+        <button class="btn waves-effect" @click="sortUp(choice)"><i
+            class="material-icons">keyboard_arrow_up</i>
         </button>
-        <button class="btn btn-small waves-effect" @click="sortDown(choice)"><i
+        <button class="btn waves-effect" @click="sortDown(choice)"><i
             class="material-icons">keyboard_arrow_down</i></button>
       </td>
       <td>
@@ -47,6 +50,7 @@
 <script>
 import Gateway from "@/gateway"
 import ImgUpload from "@/components/ImgUpload";
+import {mapMutations} from "vuex";
 
 export default {
   name: "Menus",
@@ -63,16 +67,21 @@ export default {
     ImgUpload
   },
   methods: {
+    ...mapMutations({
+      setLoading: "setLoading"
+    }),
     updateMenu(id) {
       if (id !== undefined) {
+        this.setLoading(true);
         Gateway.Menu.get(id).then(value => {
           this.menu = value;
           this.sortItems();
-          this.originalMenu = {...this.menu, choices:[...this.menu.choices]};
+          this.originalMenu = JSON.parse(JSON.stringify(this.menu));
+          this.setLoading(false);
         });
       } else {
-        this.menu = {choices:[]};
-        this.originalMenu = {choices:[]};
+        this.menu = {choices: []};
+        this.originalMenu = {choices: []};
       }
     },
     sortItems() {
@@ -82,17 +91,21 @@ export default {
     },
     addItem() {
       let value = 1;
-      if(this.menu.choices.length > 0)
-      value = Math.max.apply(Math, this.menu.choices.map(function (o) {return o.sorting})) + 1;
+      if (this.menu.choices.length > 0)
+        value = Math.max.apply(Math, this.menu.choices.map(function (o) {
+          return o.sorting
+        })) + 1;
       this.menu.choices.push({price: 0, sorting: value})
     },
     deleteItem(item) {
       this.menu.choices = this.menu.choices.filter((i) => item !== i);
     },
     save() {
+      this.setLoading(true);
       Gateway.Menu.save(this.menu)
           .then((data) => {
             this.updateMenu(data);
+            this.setLoading(false);
           });
 
     },
