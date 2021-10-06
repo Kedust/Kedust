@@ -16,8 +16,8 @@ namespace Kedust.Data.Dal
         {
             services.AddDbContext<Context>(builder =>
             {
-                builder
-                    .UseSqlite(@"Data Source=c:\Temp\kedust.db;");
+                builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                builder.UseSqlite(@"Data Source=c:\Temp\kedust.db;");
             });
             
             services.AddScoped<IMenuRepo, MenuRepo>();

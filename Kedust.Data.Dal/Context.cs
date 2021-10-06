@@ -13,8 +13,6 @@ namespace Kedust.Data.Dal
         public Context(DbContextOptions options) : base(options)
         {
             Database.EnsureCreated();
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Menu> Menus { get; set; }

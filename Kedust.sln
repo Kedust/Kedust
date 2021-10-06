@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.Services", "Kedust.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.Api", "Kedust.UI.Api\Kedust.UI.Api.csproj", "{7AB8F152-F29E-4012-B3C6-D455774CA534}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.PrintService", "Kedust.PrintService\Kedust.PrintService.csproj", "{8C73F06C-2ED8-46C3-8B46-CA9252EA530F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kedust.UI.PrinterService", "Kedust.UI.PrinterService\Kedust.UI.PrinterService.csproj", "{17D02706-67A0-4876-A7D8-BAE863585FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +32,9 @@ Global
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB8F152-F29E-4012-B3C6-D455774CA534}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C73F06C-2ED8-46C3-8B46-CA9252EA530F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C73F06C-2ED8-46C3-8B46-CA9252EA530F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C73F06C-2ED8-46C3-8B46-CA9252EA530F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C73F06C-2ED8-46C3-8B46-CA9252EA530F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D02706-67A0-4876-A7D8-BAE863585FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D02706-67A0-4876-A7D8-BAE863585FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D02706-67A0-4876-A7D8-BAE863585FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D02706-67A0-4876-A7D8-BAE863585FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

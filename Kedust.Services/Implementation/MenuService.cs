@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kedust.Data.Dal;
+using Kedust.Services.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kedust.Services.Implementation
@@ -19,23 +22,29 @@ namespace Kedust.Services.Implementation
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<DTO.Menu>> GetAll()
+        public async Task<IEnumerable<Menu>> GetAll()
         {
-            return _mapper.Map<IEnumerable<DTO.Menu>>(await _menuRepo.GetAll().ToListAsync());
+            return _mapper.Map<IEnumerable<Menu>>(await _menuRepo.GetAll().ToListAsync());
         }
 
-        public async Task<DTO.Menu> GetById(int id)
+        public async Task<Menu> GetById(int id)
         {
             var menu = await _menuRepo.GetById(id, menus => menus.Include(m => m.Choices));
-            return _mapper.Map<DTO.Menu>(menu);
+            return _mapper.Map<Menu>(menu);
         }
 
-        public async Task<int> Save(DTO.Menu request)
+        public async Task<int> Save(Menu request)
         {
             var menu = _mapper.Map<Data.Domain.Menu>(request);
             bool isExistingMenu = menu.Id > 0;
             if (isExistingMenu)
             {
+                //Delete record
+                // var existingMenu = await _menuRepo.GetById(menu.Id, menus => menus.Include(m => m.Choices));
+                // var deleted =
+                //     existingMenu.Choices.Except(existingMenu.Choices.Where(c =>
+                //         menu.Choices.Select(x => x.Id).Contains(c.Id)));
+                // foreach (var choice in deleted) await _choiceRepo.Delete(choice);
                 await _menuRepo.Update(menu);
                 return menu.Id;
             }
