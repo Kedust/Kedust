@@ -12,6 +12,9 @@
 
     </form>
 
+    <qrcode-stream @decode="onDecode"></qrcode-stream>
+
+
   </div>
 </template>
 
@@ -26,6 +29,7 @@
 import {mapMutations, mapActions, mapGetters} from "vuex";
 import Materialize from "materialize-css";
 import Gateway from "@/gateway";
+import { QrcodeStream } from 'vue-qrcode-reader'
 
 export default {
   name: 'SelectTable',
@@ -37,6 +41,9 @@ export default {
       input: this.table
     }
   },
+  components:{
+    QrcodeStream
+  },
   computed: {
     ...mapGetters({
       table: "getTable",
@@ -45,8 +52,9 @@ export default {
   },
   async mounted() {
     const table = this.$route.params.code;
+    console.log(table);
     if (table !== undefined) {
-      this.checkTable(this.input).then(async (result) => {
+      Gateway.Table.checkCode(table).then(async (result) => {
         if (result) {
           this.setTable(table);
           await this.updateMenu();
@@ -59,12 +67,6 @@ export default {
           this.loading(false);
         }
       });
-
-
-    }
-
-    if (this.table !== undefined) {
-      this.input = this.table;
     }
   },
   methods: {
@@ -77,6 +79,24 @@ export default {
       checkTable: "checkTable",
       updateMenu: "updateMenu"
     }),
+    onDecode(data){
+      if(data.toLowerCase().startsWith("https://kedust.be/table/")){
+        let scanedTable = data.substring("https://kedust.be/table/".length)
+        Gateway.Table.checkCode(scanedTable).then(async (result) => {
+          if (result) {
+            this.setTable(scanedTable);
+            await this.updateMenu();
+            await this.$router.push({name: 'Menu'});
+          } else {
+            Materialize.toast({
+              html: "Sorry, die tafel vinden we niet terug...</br>Geef de code hierboven in alstublieft",
+              classes: "toast-danger"
+            });
+            this.loading(false);
+          }
+        });
+      }
+    },
     async goToMenu() {
       await this.$router.push({name: "Menu"})
     },
