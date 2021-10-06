@@ -1,4 +1,5 @@
 using Kedust.UI.Api.Config;
+using Kedust.UI.Api.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,6 @@ namespace Kedust.UI.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-
             var seqConfig = new SeqConfig();
             Configuration.Bind("Seq", seqConfig);
             
@@ -33,6 +33,7 @@ namespace Kedust.UI.Api
 
             services.AddCors();
             services.AddControllers();
+            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Kedust.UI.Api", Version = "v1"});
@@ -54,7 +55,11 @@ namespace Kedust.UI.Api
             );
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<PrintHub>("/PrintHub");
+            });
         }
     }
 }

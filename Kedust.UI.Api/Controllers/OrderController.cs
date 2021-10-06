@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Kedust.Data.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace Kedust.UI.Api.Controllers
@@ -12,9 +13,11 @@ namespace Kedust.UI.Api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
-        public OrderController(ILogger<OrderController> logger)
+        private readonly IHubContext<PrintHub> _printHub;
+        public OrderController(ILogger<OrderController> logger,  IHubContext<PrintHub> printHub)
         {
             _logger = logger;
+            _printHub = printHub;
         }
 
         public class PostRequest
@@ -23,6 +26,12 @@ namespace Kedust.UI.Api.Controllers
             public string Table { get; set; }
         }
 
+        [HttpGet("test")]
+        public async void Test()
+        {
+            await _printHub.Clients.All.SendAsync("NewOrder");
+        }
+        
         [HttpPost]
         [Consumes("application/json")]
         public IActionResult Post([FromBody] PostRequest request)
