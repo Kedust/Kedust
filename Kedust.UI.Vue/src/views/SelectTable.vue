@@ -84,6 +84,7 @@ export default {
         let scanedTable = data.substring("https://kedust.be/table/".length)
         Gateway.Table.checkCode(scanedTable).then(async (result) => {
           if (result) {
+            alert(scanedTable);
             this.setTable(scanedTable);
             await this.updateMenu();
             await this.$router.push({name: 'Menu'});
