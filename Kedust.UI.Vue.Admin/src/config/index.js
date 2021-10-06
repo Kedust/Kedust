@@ -1,6 +1,6 @@
 const config = {
     api: {
-        domain: "https://localhost:5001",
+        domain: "https://api.kedust.be",
         menu: {
             getAll: "/Menu",
             get: "/Menu/{id}",
