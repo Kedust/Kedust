@@ -71,6 +71,10 @@ export default {
         this.setTableCode(code);
       }
     },
+    async submit(e) {
+      e.preventDefault();
+      this.setTableCode(this.input);
+    },
     setTableCode(code) {
       this.loading(true);
       Gateway.Table.checkCode(code)
@@ -89,13 +93,6 @@ export default {
               }
           );
     },
-    async submit(e) {
-      e.preventDefault();
-      this.setTableCode(this.input);
-    },
-    async goToMenu() {
-      await this.$router.push({name: "Menu"})
-    }
   }
 }
 </script>
