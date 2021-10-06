@@ -1,4 +1,5 @@
 .idea/
 bin/
 obj/
+packages/
 /Kedust.UI.Api/appsettings.Development.json
