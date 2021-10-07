@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Kedust.Data.Domain;
+using Kedust.Services;
+using Kedust.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -13,65 +17,28 @@ namespace Kedust.UI.Api.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
-        private readonly IHubContext<PrintHub> _printHub;
-        public OrderController(ILogger<OrderController> logger,  IHubContext<PrintHub> printHub)
+        private readonly IPrintSignal _printSignal;
+        private readonly IOrderService _orderService;
+
+        public OrderController(ILogger<OrderController> logger, IPrintSignal printSignal, IOrderService orderService)
         {
             _logger = logger;
-            _printHub = printHub;
+            _printSignal = printSignal;
+            _orderService = orderService;
         }
 
-        public class PostRequest
-        {
-            public IEnumerable<OrderItem> Items { get; set; }
-            public string Table { get; set; }
-        }
-
-        [HttpGet("test")]
-        public async void Test()
-        {
-            await _printHub.Clients.All.SendAsync("NewOrder");
-        }
-        
         [HttpPost]
         [Consumes("application/json")]
-        public IActionResult Post([FromBody] PostRequest request)
+        public async Task<IActionResult> Post(SaveOrder order, CancellationToken token)
         {
             
-            var orders = request.Items.Select(x => new Kedust.Data.Domain.OrderItem()
+            var id = await _orderService.Save(order);
+            if (id > 0)
             {
-                Amount = x.Count,
-                Choice = new Choice
-                {
-                    Description = x.Description,
-                    Name = x.Name,
-                    Price = x.Price,
-                }
-            }).ToList();
-            
-            _logger.LogInformation($"POST /Order \n {string.Join('\n', orders.Select(o => o.ToString()))}");
-            
-            Order order = new Order()
-            {
-                OrderItems = orders,
-                Table = new Table
-                {
-                    Description = request.Table
-                },
-                TimeOrderPlaced = DateTime.Now
-            };
-            
-            // _printService.PrintOrderTicket(order);
-            return Ok(true);
-        }
-
-        public class OrderItem
-        {
-            public int Id { get; set; }
-            public string Category { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; }
-            public int Count { get; set; }
+                await _printSignal.NotifyNewOrder("event", token);
+                return Ok(true);
+            }
+            return Ok(false);
         }
     }
 }

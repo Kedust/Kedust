@@ -21,6 +21,7 @@ namespace Kedust.UI.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
+            services.AddTransient<IPrintSignal, PrintSignal>();
             var seqConfig = new SeqConfig();
             Configuration.Bind("Seq", seqConfig);
             

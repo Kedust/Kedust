@@ -9,6 +9,7 @@ namespace Kedust.Services
         {
             Data.Dal.Startup.ConfigureServices(services);
             // services.AddTransient<IPrintService, PrintService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IMenuService, MenuService>();
             services.AddTransient<ITableService, TableService>();
             services.AddAutoMapper(typeof(Startup));

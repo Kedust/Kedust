@@ -9,13 +9,7 @@ namespace Kedust.Data.Domain
 
         public Choice Choice { get; set; }
         [ForeignKey("Choice")] public int ChoiceId { get; set; }
-
         
         public int Amount { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Amount} x {Choice.Name}";
-        }
     }
 }

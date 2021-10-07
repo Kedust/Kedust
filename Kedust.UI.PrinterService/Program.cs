@@ -17,6 +17,7 @@ namespace Kedust.UI.PrinterService
             configurationRoot.Bind(config);
             
             var services = new ServiceCollection();
+            Kedust.Services.Startup.ConfigureServices(services);
             await services
                 .AddSingleton<Program>()
                 .AddSingleton<OrderWatcher>()
