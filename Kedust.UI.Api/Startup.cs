@@ -25,7 +25,7 @@ namespace Kedust.UI.Api
             var seqConfig = new SeqConfig();
             Configuration.Bind("Seq", seqConfig);
             
-            Services.Startup.ConfigureServices(services);
+            Services.Startup.ConfigureServices(services, Configuration);
             services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder

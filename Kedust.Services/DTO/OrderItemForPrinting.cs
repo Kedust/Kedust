@@ -1,6 +1,6 @@
 namespace Kedust.Services.DTO
 {
-    public class OrderItem
+    public class OrderItemForPrinting
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

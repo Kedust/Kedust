@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kedust.Data.Dal;
+using Kedust.Data.Domain;
 using Kedust.Services.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,15 +22,18 @@ namespace Kedust.Services.Implementation
         }
 
 
-        public async Task<int> Save(SaveOrder saveOrder)
+        public async Task<int> Save(OrderForSaving saveOrder)
         {
             var orderEntity = await _orderRepo.Insert(_mapper.Map<Data.Domain.Order>(saveOrder));
             return orderEntity.Id;
         }
 
-        public async Task<IEnumerable<DTO.Order>> GetUnprintedOrders()
+        public async Task<IEnumerable<OrderForPrinting>> PatchByStatus(OrderStatus status, OrderStatus newStatus)
         {
-            return _mapper.Map<IEnumerable<DTO.Order>>(await _orderRepo.GetUnprinted());
+            var orders = await _orderRepo.GetByStatus(status);
+            orders.ForEach(o => o.Status = newStatus);
+            await _orderRepo.BulkUpdate(orders);
+            return _mapper.Map<IEnumerable<OrderForPrinting>>(orders);
         }
     }
 }

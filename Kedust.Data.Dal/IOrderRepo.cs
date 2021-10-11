@@ -6,6 +6,7 @@ namespace Kedust.Data.Dal
 {
     public interface IOrderRepo: IBaseRepo<Order,int>
     {
-        Task<List<Order>> GetUnprinted();
+        Task<List<Order>> GetByStatus(OrderStatus status);
+        Task<bool> BulkUpdate(List<Order> orders);
     }
 }

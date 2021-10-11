@@ -27,7 +27,8 @@ namespace Kedust.UI.Api.Controllers
         private readonly IHubContext<PrintHub> _printHub;
         public PrintSignal(IHubContext<PrintHub> printHub) => _printHub = printHub;
 
-        public async Task NotifyNewOrder(string eventId, CancellationToken token) =>
-            await _printHub.Clients.Group(eventId).SendCoreAsync("NotifyNewOrder", null, token);
+        public async Task NotifyNewOrder(string eventId, CancellationToken token) {
+            await _printHub.Clients.Group(eventId).SendAsync("NotifyNewOrder", token);
+        }
     }
 }

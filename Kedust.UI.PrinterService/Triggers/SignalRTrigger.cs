@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using Kedust.Services;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Configuration;
 
-namespace Kedust.UI.PrinterService
+namespace Kedust.UI.PrinterService.Triggers
 {
-    public class OrderWatcher
+    public class SignalRTrigger
     {
         private readonly Config _config;
-        private readonly IOrderService _orderService;
         
-        public OrderWatcher(Config config, IOrderService orderService)
+        public SignalRTrigger(Config config)
         {
             _config = config;
-            _orderService = orderService;
         }
         
         public async void Start(CancellationToken token)
@@ -26,21 +22,26 @@ namespace Kedust.UI.PrinterService
             var hubConnection = new HubConnectionBuilder()
                 .WithUrl(_config.SignalRHub)
                 .Build();
+            
             hubConnection.On("NotifyNewOrder", async () =>
             {
-                var data = await _orderService.GetUnprintedOrders();
-                Console.WriteLine($"New Order {DateTime.Now}");
+                Console.WriteLine(await RestClient.GetOrders());
             });
-            await hubConnection.StartAsync(token).ContinueWith((task) =>
+           
+           
+            await hubConnection.StartAsync(token).ContinueWith(async (task) =>
             {
                 if (task.IsFaulted)
                 {
                     Console.WriteLine("Connection failed");
                 }
+                else
+                {
+                    await hubConnection.SendAsync("JoinRoom", _config.EventCode, token);
+                }
                 
             }, token);
             
-            await hubConnection.SendCoreAsync("JoinRoom", new object[]{"event"}, token);
             token.WaitHandle.WaitOne();
         }
     }

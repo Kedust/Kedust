@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Kedust.Services.DTO
 {
-    public class SaveOrder
+    public class OrderForSaving
     {
         public int TableId { get; set; }
-        public List<SaveOrderItem> OrderItems { get; set; }
+        public List<OrderItemForSaving> OrderItems { get; set; }
     }
 }

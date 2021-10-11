@@ -1,5 +1,6 @@
 ﻿using Kedust.Data.Dal.EfImplementation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -12,12 +13,12 @@ namespace Kedust.Data.Dal
             builder.AddConsole(configure: config => { builder.SetMinimumLevel(LogLevel.Information); });
         });
         
-        public static void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<Context>(builder =>
             {
                 builder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                builder.UseSqlite(@"Data Source=c:\Temp\kedust.db;");
+                builder.UseSqlite(config.GetConnectionString("Db"));
             });
             
             services.AddScoped<IMenuRepo, MenuRepo>();

@@ -8,19 +8,21 @@ namespace Kedust.Data.Dal.EfImplementation
 {
     internal class OrderRepo : BaseRepo<Order, int>, Dal.IOrderRepo
     {
+        private DbSet<Order> OrderSet => Context.Orders;
+
         public OrderRepo(Context context) : base(context)
         {
         }
 
-        public Task<List<Order>> GetUnprinted()
+        public Task<List<Order>> GetByStatus(OrderStatus status)
         {
-            return GetAll(order => order
-                    .Include(o => o.Table)
-                    .Include(o => o.OrderItems)
-                    .ThenInclude(o => o.Choice)
-                )
-                .Where(o => o.PrintedAt == null)
-                .ToListAsync();
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<bool> BulkUpdate(List<Order> orders)
+        {
+            OrderSet.UpdateRange(orders);
+            return await Context.SaveChangesAsync() > 0;
         }
     }
 }

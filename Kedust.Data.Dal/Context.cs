@@ -30,6 +30,11 @@ namespace Kedust.Data.Dal
             modelBuilder.AddAudit<OrderItem>();
             modelBuilder.AddAudit<Table>();
 
+#if DEBUG
+            modelBuilder.Seed();
+#endif
+
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Kedust.Data.Domain;
 using Kedust.Services;
 using Kedust.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace Kedust.UI.Api.Controllers
@@ -27,18 +24,24 @@ namespace Kedust.UI.Api.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Consumes("application/json")]
-        public async Task<IActionResult> Post(SaveOrder order, CancellationToken token)
+        public async Task<IActionResult> Put(OrderForSaving order, CancellationToken token)
         {
-            
             var id = await _orderService.Save(order);
             if (id > 0)
             {
-                await _printSignal.NotifyNewOrder("event", token);
+                await _printSignal.NotifyNewOrder("azerty", token);
                 return Ok(true);
             }
+
             return Ok(false);
+        }
+
+        [HttpPatch("/Status/{status}/{newStatus}")]
+        public async Task<IEnumerable<OrderForPrinting>> PatchByStatus(OrderStatus status, OrderStatus newStatus)
+        {
+            return await _orderService.PatchByStatus(status, newStatus);
         }
     }
 }
