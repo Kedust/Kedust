@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="back-button" v-if="tableAvailable" @click="goToMenu"><i class="material-icons">arrow_back</i></div>
+    <div class="back-button" v-if="tableAvailable" @click="this.$router.push({name:'Menu'})"><i class="material-icons">arrow_back</i></div>
 
     <form @submit="submit">
       <div class="input-field">
@@ -62,6 +62,7 @@ export default {
   methods: {
     ...mapMutations({
       setTable: "setTable",
+      setTableId: "setTableId",
       setMenu: "setMenu",
       loading: "setLoading"
     }),
@@ -79,7 +80,8 @@ export default {
       this.loading(true);
       Gateway.Table.checkCode(code)
           .then((response) => {
-                if (response) {
+                if (response !== 0) {
+                  this.setTableId(response);
                   this.setTable(code);
                   return Gateway.Menu.getByTableCode(code).then(async (choicesResult) => {
                     this.setMenu(choicesResult)

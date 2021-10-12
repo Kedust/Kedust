@@ -57,7 +57,8 @@ export default {
       menu: "getOrderItems",
       itemCount: "getOrderCount",
       price: "getOrderPrice",
-      table: "getTable"
+      table: "getTable",
+      tableId: "getTableId"
     })
   },
   methods: {
@@ -71,9 +72,10 @@ export default {
     async Send() {
       this.loading(true);
 
+
       let body = {
-        items: this.menu,
-        table: this.table
+        orderItems: this.menu.map(mi => ({choiceId: mi.id, amount: mi.count})),
+        tableId: this.tableId
       };
 
       Gateway.Order.post(body).then(async (result) => {
