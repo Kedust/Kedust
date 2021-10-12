@@ -8,11 +8,15 @@ const store = new Vuex.Store({
         menu: [],
         currentMenuItem: {},
         table: undefined,
+        tableId: undefined,
         loading: false
     },
     mutations: {
         setTable(state, payload){
             state.table = payload;
+        },
+        setTableId(state, payload){
+            state.tableId = payload
         },
         setLoading(state, payload) {
             state.loading = payload;
@@ -64,6 +68,7 @@ const store = new Vuex.Store({
         },
         getOrderItems: state => state.menu.filter(i => i.count > 0),
         getTable: state => state.table,
+        getTableId: state => state.tableId,
         getTableAvailable: state => state.table !== undefined
 }
 });
