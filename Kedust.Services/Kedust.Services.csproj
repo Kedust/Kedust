@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Kedust.Data.Dal\Kedust.Data.Dal.csproj" />
+      <ProjectReference Include="..\Kedust.Services.DTO\Kedust.Services.DTO.csproj" />
     </ItemGroup>
 
 </Project>

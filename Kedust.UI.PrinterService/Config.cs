@@ -4,5 +4,6 @@ namespace Kedust.UI.PrinterService
     {
         public string SignalRHub { get; set; }
         public string EventCode { get; set; }
+        public string Api { get; set; }
     }
 }

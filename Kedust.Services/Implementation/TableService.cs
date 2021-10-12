@@ -37,7 +37,7 @@ namespace Kedust.Services.Implementation
         public async Task<int> Save(Table request)
         {
             var table = _mapper.Map<Data.Domain.Table>(request);
-            bool isExistingTable = table.Id > 0;
+            bool isExistingTable = table.Id != 0;
             if (isExistingTable)
             {
                 await _tableRepo.Update(table);
@@ -66,7 +66,7 @@ namespace Kedust.Services.Implementation
             for (int i = 0; i < maxTries; i++)
             {
                 string randomCode = GenerateRandomString(random, 6);
-                if (!await _tableRepo.CodeExists(randomCode))
+                if (await _tableRepo.CodeExists(randomCode) != 0)
                     return randomCode;
             }
 

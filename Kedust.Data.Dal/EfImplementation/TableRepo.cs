@@ -10,6 +10,6 @@ namespace Kedust.Data.Dal.EfImplementation
         {
         }
 
-        public async Task<bool> CodeExists(string code) => await Context.Tables.AnyAsync(t => t.Code == code);
+        public async Task<int> CodeExists(string code) => (await Context.Tables.FirstOrDefaultAsync(t => t.Code == code))?.Id ?? 0;
     }
 }

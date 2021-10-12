@@ -19,16 +19,14 @@ namespace Kedust.UI.Api.Controllers
 
     public interface IPrintSignal
     {
-        Task NotifyNewOrder(string eventId, CancellationToken token);
+        Task NotifyNewOrder(string eventId, int orderId, CancellationToken token);
     }
 
     public class PrintSignal : IPrintSignal
     {
         private readonly IHubContext<PrintHub> _printHub;
         public PrintSignal(IHubContext<PrintHub> printHub) => _printHub = printHub;
-
-        public async Task NotifyNewOrder(string eventId, CancellationToken token) {
-            await _printHub.Clients.Group(eventId).SendAsync("NotifyNewOrder", token);
-        }
+        public async Task NotifyNewOrder(string eventId, int orderId, CancellationToken token)
+            => await _printHub.Clients.Group(eventId).SendAsync("NotifyNewOrder", eventId,  orderId, token);
     }
 }

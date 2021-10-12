@@ -14,11 +14,6 @@ namespace Kedust.Data.Dal.EfImplementation
         {
         }
 
-        public Task<List<Order>> GetByStatus(OrderStatus status)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<bool> BulkUpdate(List<Order> orders)
         {
             OrderSet.UpdateRange(orders);

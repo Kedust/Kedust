@@ -25,23 +25,20 @@ namespace Kedust.UI.Api.Controllers
         }
 
         [HttpPut]
-        [Consumes("application/json")]
         public async Task<IActionResult> Put(OrderForSaving order, CancellationToken token)
         {
             var id = await _orderService.Save(order);
             if (id > 0)
             {
-                await _printSignal.NotifyNewOrder("azerty", token);
+                await _printSignal.NotifyNewOrder("event", id, token);
                 return Ok(true);
             }
 
             return Ok(false);
         }
 
-        [HttpPatch("/Status/{status}/{newStatus}")]
-        public async Task<IEnumerable<OrderForPrinting>> PatchByStatus(OrderStatus status, OrderStatus newStatus)
-        {
-            return await _orderService.PatchByStatus(status, newStatus);
-        }
+        [HttpGet("Print/{id:int}")]
+        public Task<OrderForPrinting> PrintingGetById(int id, CancellationToken token) =>
+            _orderService.GetById(id, token);
     }
 }

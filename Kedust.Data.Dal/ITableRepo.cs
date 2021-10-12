@@ -5,6 +5,6 @@ namespace Kedust.Data.Dal
 {
     public interface ITableRepo: IBaseRepo<Table, int>
     {
-        Task<bool> CodeExists(string code);
+        Task<int> CodeExists(string code);
     }
 }

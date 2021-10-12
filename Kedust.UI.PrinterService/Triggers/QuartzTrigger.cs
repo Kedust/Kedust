@@ -18,13 +18,13 @@ namespace Kedust.UI.PrinterService.Triggers
         
         private static IScheduler _scheduler;
 
-        public async void Start(CancellationToken token)
+        public async Task Start(CancellationToken token)
         {
             ISchedulerFactory schedulerFactory = new StdSchedulerFactory();
             _scheduler = await schedulerFactory.GetScheduler(token);
             await _scheduler.Start(token);
             JobDetailImpl jobDetail = new JobDetailImpl("Job1", "Group1", typeof(CronJob));
-            CronTriggerImpl trigger = new CronTriggerImpl("Trigger1", "Group1", "0 * * * * ? *"); // http://www.cronmaker.com/
+            CronTriggerImpl trigger = new CronTriggerImpl("Trigger1", "Group1", ""); // http://www.cronmaker.com/
             await _scheduler.ScheduleJob(jobDetail, trigger, token);
             token.WaitHandle.WaitOne();
         }

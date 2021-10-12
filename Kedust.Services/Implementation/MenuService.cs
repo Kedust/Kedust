@@ -36,7 +36,7 @@ namespace Kedust.Services.Implementation
         public async Task<int> Save(Menu request)
         {
             var menu = _mapper.Map<Data.Domain.Menu>(request);
-            bool isExistingMenu = menu.Id > 0;
+            bool isExistingMenu = menu.Id != 0;
             if (isExistingMenu)
             {
                 //Delete record

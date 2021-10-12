@@ -39,7 +39,7 @@ namespace Kedust.UI.Api.Controllers
         public async Task<string> GenerateCode() => await _tableService.GenerateCode();
 
         [HttpGet("Check/{tableCode}")]
-        public async Task<bool> CheckCode(string tableCode)
+        public async Task<int> CheckCode(string tableCode)
         {
             return await _tableRepo.CodeExists(tableCode);
         }
