@@ -107,61 +107,61 @@ namespace Kedust.Data.Dal
                     Id = -10,
                     Code = "azerty",
                     Description = "Tafel 11",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -9,
                     Code = "fjkeeo",
                     Description = "Tafel 12",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -8,
                     Code = "fkleid",
                     Description = "Tafel 13",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -7,
                     Code = "xhekfo",
                     Description = "Tafel 14",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -6,
                     Code = "mzcihr",
                     Description = "Tafel 15",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -5,
                     Code = "tjvkdp",
                     Description = "Tafel 21",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -4,
                     Code = "dlpzhc",
                     Description = "Tafel 22",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -3,
                     Code = "mlifsq",
                     Description = "Tafel 23",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -2,
                     Code = "qfinwb",
                     Description = "Tafel 24",
-                    MenuId = -100
+                    MenuId = -1
                 }, new Table
                 {
                     Id = -1,
                     Code = "pmoeng",
                     Description = "Tafel 25",
-                    MenuId = -100
+                    MenuId = -1
                 }
             );
 

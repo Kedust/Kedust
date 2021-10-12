@@ -1,6 +1,6 @@
 const config = {
     api: {
-        domain: "https://api.kedust.be",
+        domain: process.env.VUE_APP_KEDUST_API_DOMAIN,
         menu: {
             getAll: "/Menu",
             get: "/Menu/{id}",
