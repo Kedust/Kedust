@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Net.Mime;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using Kedust.Data.Domain;
 using Kedust.Services.DTO;
@@ -18,14 +19,18 @@ namespace Kedust.UI.PrinterService
         public Task PrintOrderTicket(OrderForPrinting order)
         {
             PrinterSettings printer = new PrinterSettings();
-            // printer.PrinterName = "Microsoft Print to PDF";
-            printer.PrinterName = "EPSON TM-T20III Receipt";
+            printer.PrinterName = "Microsoft Print to PDF";
+            // printer.PrinterName = "EPSON TM-T20III Receipt";
 
             if (printer.IsValid)
             {
                 using (PrintDocument printDoc = new PrintDocument())
                 {
+                    printer.PrintFileName = $"C://Temp//ticket_{DateTime.Now:HHmmss}.pdf";
+                    printer.PrintToFile = true;
+                    printDoc.DocumentName = $"C://Temp//ticket_{DateTime.Now:HHmmss}.pdf";
                     printDoc.PrinterSettings = printer;
+                    printDoc.PrintController = new StandardPrintController();
                     printDoc.PrintPage += (_, eventArgs) => OnPrintDocOnPrintPage(eventArgs, order);
                     printDoc.Print();
                 }
@@ -36,6 +41,7 @@ namespace Kedust.UI.PrinterService
 
         private static void OnPrintDocOnPrintPage(PrintPageEventArgs eventArgs, OrderForPrinting order)
         {
+            
             var g = eventArgs.Graphics;
             if (g == null) return;
 
@@ -45,36 +51,37 @@ namespace Kedust.UI.PrinterService
             var size = ResizeImage(image, PageWidth, 100);
             PrintCenterAlignImage(image, g, yOffset, PageWidth, size.width, size.height);
             yOffset += size.height;
-            
+
             //Blank space
             yOffset += 10;
-            
+
             //Line
             g.DrawLine(Pens.Black, 0, yOffset, PageWidth, yOffset);
-            
+
             //Blank space
             yOffset += 10;
-            
+
             //Table
             yOffset += PrintHeader(order, g, yOffset);
-            
+
             //Blank space
             yOffset += 10;
-            
+
             g.DrawLine(Pens.Black, 0, yOffset, PageWidth, yOffset);
-            
+
             yOffset += 10;
-            
+
             foreach (var orderLine in order.OrderItems)
             {
                 yOffset += PrintOrderLine(orderLine, g, yOffset);
             }
-            
-            
+
+
             g.DrawLine(Pens.Black, 0, yOffset, PageWidth, yOffset);
             yOffset += 10;
-            
-            yOffset += PrintTotalLine(order, g, yOffset);
+
+            PrintTotalLine(order, g, yOffset);
+
         }
 
         private static int PrintOrderLine(OrderItemForPrinting item, Graphics g, int offset)
@@ -90,7 +97,7 @@ namespace Kedust.UI.PrinterService
             g.DrawString($"{item.Amount * item.Price:0.00}", new Font(FontTitle, 12),
                 new SolidBrush(Color.Black), PageWidth - fontSize2.Width, offset);
 
-            return Convert.ToInt32(fontSize1.Height);
+            return Convert.ToInt32(fontSize1.Height + 10);
         }
 
         private static int PrintTotalLine(OrderForPrinting order, Graphics g, int offset)
@@ -108,10 +115,9 @@ namespace Kedust.UI.PrinterService
 
         private static int PrintHeader(OrderForPrinting order, Graphics g, int offset)
         {
-            var textSize1 = g.MeasureString("Tafel: " + order.Table.Description, new Font(FontTitle, 20));
+            var textSize1 = g.MeasureString(order.Table.Description, new Font(FontTitle, 20));
 
-            g.DrawString(
-                "Tafel: " + order.Table.Description,
+            g.DrawString(order.Table.Description,
                 new Font(FontTitle, 20),
                 new SolidBrush(Color.Black),
                 PageWidth / 2.0f - textSize1.Width / 2.0f,
