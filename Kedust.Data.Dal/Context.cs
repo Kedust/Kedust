@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Kedust.Data.Domain;
@@ -18,6 +17,8 @@ namespace Kedust.Data.Dal
         public DbSet<Menu> Menus { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Table> Tables { get; set; }
 
@@ -29,11 +30,7 @@ namespace Kedust.Data.Dal
             modelBuilder.AddAudit<Order>();
             modelBuilder.AddAudit<OrderItem>();
             modelBuilder.AddAudit<Table>();
-
-#if DEBUG
-            modelBuilder.Seed();
-#endif
-
+            modelBuilder.AddAudit<Setting>();
 
             base.OnModelCreating(modelBuilder);
         }

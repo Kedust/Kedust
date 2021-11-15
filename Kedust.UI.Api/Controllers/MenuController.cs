@@ -31,10 +31,11 @@ namespace Kedust.UI.Api.Controllers
 
         [HttpDelete("{id:int}")]
         public async Task<bool> Delete(int id) => await _menuService.Delete(id);
-
-        [HttpGet("Table/{tableCode}")]
-        public async Task<IEnumerable<Choice>> GetByTableCode(string tableCode)
-        {
-            return await _menuService.GetByTableCode(tableCode);
-        }    }
+        //
+        // [HttpGet("Table/{tableCode}")]
+        // public async Task<IEnumerable<Choice>> GetByTableId(string tableCode)
+        // {
+        //     return await _menuService.GetByTableCode(tableCode);
+        // }    
+    }
 }

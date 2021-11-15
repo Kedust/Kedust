@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kedust.Data.Dal;
@@ -40,11 +39,11 @@ namespace Kedust.Services.Implementation
             if (isExistingMenu)
             {
                 //Delete record
-                // var existingMenu = await _menuRepo.GetById(menu.Id, menus => menus.Include(m => m.Choices));
-                // var deleted =
-                //     existingMenu.Choices.Except(existingMenu.Choices.Where(c =>
-                //         menu.Choices.Select(x => x.Id).Contains(c.Id)));
-                // foreach (var choice in deleted) await _choiceRepo.Delete(choice);
+                var existingChoices = (await _choiceRepo.GetByMenuId(menu.Id)).ToList();
+                var deleted =
+                    existingChoices.Except(existingChoices.Where(c =>
+                        menu.Choices.Select(x => x.Id).Contains(c.Id)));
+                foreach (var choice in deleted) await _choiceRepo.Delete(choice);
                 await _menuRepo.Update(menu);
                 return menu.Id;
             }

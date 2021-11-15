@@ -11,6 +11,8 @@ namespace Kedust.Data.Domain
         public string Image { get; set; }
 
         public int Sorting { get; set; }
+        
+        public bool IsKitchen { get; set; }
 
         public Menu Menu { get; set; }
         [ForeignKey("Menu")] public int MenuId { get; set; }

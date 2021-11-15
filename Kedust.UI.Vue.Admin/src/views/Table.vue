@@ -18,9 +18,13 @@
       <label for="description" class="active">Description</label>
     </div>
 
-    <select class="browser-default" v-model="table.menuId">
-      <option v-for="menu in menus" :key="menu.id" :value="menu.id">{{ menu.name }}</option>
-    </select>
+    <div class="input-field">
+      <select id="menu" class="browser-default" v-model="table.menuId">
+        <option v-for="menu in menus" :key="menu.id" :value="menu.id">{{ menu.name }}</option>
+      </select>
+      <label for="menu" class="active">Menu</label>
+    </div>
+
   </section>
 </template>
 

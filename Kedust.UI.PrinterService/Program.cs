@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Kedust.Services.DTO;
 using Kedust.UI.PrinterService.Triggers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,9 +29,11 @@ namespace Kedust.UI.PrinterService
             await services
                 .AddTransient<Program>()
                 .AddTransient<SignalRTrigger>()
-                .AddTransient<PrintService>()
-                .AddTransient<IOrderServiceClient, OrderServiceClient>()
                 .AddTransient<QuartzTrigger>()
+                .AddTransient<IOrderServiceClient, OrderServiceClient>()
+                .AddTransient<PrintAllOrderJob>()
+                .AddTransient<IMyJobFactory, MyJobFactory>()
+                .AddTransient<PrintService>()
                 .AddSingleton(config)
                 .BuildServiceProvider()
             //Start program
@@ -50,8 +54,8 @@ namespace Kedust.UI.PrinterService
         private Task Start()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            _signalRTrigger.Start(cancellationTokenSource.Token);
-            // _quartzTrigger.Start(cancellationTokenSource.Token);
+            // _signalRTrigger?.Start(cancellationTokenSource.Token);
+            _quartzTrigger?.Start(cancellationTokenSource.Token);
             Console.ReadLine();
             cancellationTokenSource.Cancel();
             return Task.CompletedTask;

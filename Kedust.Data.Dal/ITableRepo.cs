@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Kedust.Data.Domain;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Kedust.Data.Dal
 {
-    public interface ITableRepo: IBaseRepo<Table, int>
+    public interface ITableRepo : IBaseRepo<Table, int>
     {
-        Task<int> CodeExists(string code);
+        Task<Table> GetByCode(string code, Func<IQueryable<Table>, IIncludableQueryable<Table, object>> include = null);
     }
 }

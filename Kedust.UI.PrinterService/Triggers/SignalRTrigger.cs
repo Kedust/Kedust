@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Kedust.Services.DTO;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Kedust.UI.PrinterService.Triggers
@@ -11,60 +12,40 @@ namespace Kedust.UI.PrinterService.Triggers
         private readonly Config _config;
         private readonly IOrderServiceClient _orderServiceClient;
         private readonly PrintService _printService;
+
         public SignalRTrigger(IOrderServiceClient orderServiceClient, PrintService printService, Config config)
         {
             _config = config;
             _printService = printService;
             _orderServiceClient = orderServiceClient;
         }
-        
+
         public async Task Start(CancellationToken token)
         {
 #if DEBUG
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
 #endif
+            Console.WriteLine(_config.SignalRHub);
+            
             var hubConnection = new HubConnectionBuilder()
                 .WithUrl(_config.SignalRHub)
+                .WithAutomaticReconnect(new RetryPolicy())
                 .Build();
 
-            hubConnection.On("NotifyNewOrder", async (string eventCode, int id) =>
+            hubConnection.On("NotifyNewOrder", async (int id) =>
             {
-                var order = await _orderServiceClient.GetOrder(id, token);
-                await _printService.PrintOrderTicket(order);
+                OrderForPrinting order = await _orderServiceClient.GetOrder(id, token);
+                await _printService.PrintOrderTicket(order, _config);
+                await _orderServiceClient.SetPrinted(id, token);
             });
-
-            hubConnection.Closed += exception =>
-            {
-                Console.WriteLine("Connection closed");
-                return Task.CompletedTask;
-            };
-
-            hubConnection.Reconnected += exception =>
-            {
-                Console.WriteLine("Connection reconnected");
-                return Task.CompletedTask;
-            };
-
-            hubConnection.Reconnecting += exception =>
-            {
-                Console.WriteLine("Connection reconnection");
-                return Task.CompletedTask;
-            };
-
-            await hubConnection.StartAsync(token).ContinueWith(async (task) =>
+            await hubConnection.StartAsync(token).ContinueWith((task) =>
             {
                 if (task.IsFaulted)
                 {
                     Console.WriteLine("Connection failed");
                 }
-                else
-                {
-                    await hubConnection.SendAsync("JoinRoom", _config.EventCode, token);
-                    Console.WriteLine("Connection started");
-                }
-                
             }, token);
-            
+
             token.WaitHandle.WaitOne();
         }
     }

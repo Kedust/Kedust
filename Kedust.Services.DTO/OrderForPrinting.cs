@@ -6,6 +6,7 @@ namespace Kedust.Services.DTO
 {
     public class OrderForPrinting
     {
+        public int Id { get; set; }
         public DateTime TimeOrderPlaced { get; set; }
         public OrderStatus Status { get; set; }
         public Table Table { get; set; }

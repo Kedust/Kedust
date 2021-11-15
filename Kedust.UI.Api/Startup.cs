@@ -1,3 +1,4 @@
+using Kedust.Services;
 using Kedust.UI.Api.Config;
 using Kedust.UI.Api.Controllers;
 using Microsoft.AspNetCore.Builder;
@@ -22,10 +23,11 @@ namespace Kedust.UI.Api
         {
             services.AddSingleton(Configuration);
             services.AddTransient<IPrintSignal, PrintSignal>();
+            
             var seqConfig = new SeqConfig();
             Configuration.Bind("Seq", seqConfig);
             
-            Services.Startup.ConfigureServices(services, Configuration);
+            services.AddKedustServices(Configuration);
             services.AddLogging(loggingBuilder =>
             {
                 loggingBuilder

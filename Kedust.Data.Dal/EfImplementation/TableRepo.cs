@@ -1,15 +1,25 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Kedust.Data.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Kedust.Data.Dal.EfImplementation
 {
-    internal class TableRepo: BaseRepo<Table, int>, ITableRepo
+    internal class TableRepo : BaseRepo<Table, int>, ITableRepo
     {
         public TableRepo(Context context) : base(context)
         {
         }
 
-        public async Task<int> CodeExists(string code) => (await Context.Tables.FirstOrDefaultAsync(t => t.Code == code))?.Id ?? 0;
+        public async Task<Table> GetByCode(string code,
+            Func<IQueryable<Table>, IIncludableQueryable<Table, object>> include = null)
+        {
+            var query = Context.Tables.AsQueryable();
+            if (include != null)
+                query = include.Invoke(query);
+            return await query.FirstOrDefaultAsync(t => t.Code == code);
+        }
     }
 }

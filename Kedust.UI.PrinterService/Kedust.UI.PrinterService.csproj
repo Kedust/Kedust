@@ -29,4 +29,9 @@
       <ProjectReference Include="..\Kedust.Services.DTO\Kedust.Services.DTO.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="img\kedust-full.jpg" />
+      <EmbeddedResource Include="img\kedust-full.jpg" />
+    </ItemGroup>
+
 </Project>

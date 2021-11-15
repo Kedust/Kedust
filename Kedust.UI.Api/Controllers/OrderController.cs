@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kedust.Data.Domain;
 using Kedust.Services;
 using Kedust.Services.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +29,7 @@ namespace Kedust.UI.Api.Controllers
             var id = await _orderService.Save(order);
             if (id > 0)
             {
-                await _printSignal.NotifyNewOrder("event", id, token);
+                await _printSignal.NotifyNewOrder(id, token);
                 return Ok(true);
             }
 
@@ -39,6 +38,16 @@ namespace Kedust.UI.Api.Controllers
 
         [HttpGet("Print/{id:int}")]
         public Task<OrderForPrinting> PrintingGetById(int id, CancellationToken token) =>
-            _orderService.GetById(id, token);
+            _orderService.GetByIdForPrinting(id, token);
+
+
+        [HttpGet("Print")]
+        public Task<List<OrderForPrinting>> PrintingGetAll(CancellationToken token) =>
+            _orderService.GetAllForPrinting(token);
+
+
+        [HttpPost("Printed")]
+        public Task SetPrinted([FromForm] int id, CancellationToken token) =>
+            _orderService.MarkPrinted(id, token);
     }
 }
