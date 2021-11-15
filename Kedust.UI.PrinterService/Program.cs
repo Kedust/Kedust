@@ -54,7 +54,7 @@ namespace Kedust.UI.PrinterService
         private Task Start()
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            // _signalRTrigger?.Start(cancellationTokenSource.Token);
+            _signalRTrigger?.Start(cancellationTokenSource.Token);
             _quartzTrigger?.Start(cancellationTokenSource.Token);
             Console.ReadLine();
             cancellationTokenSource.Cancel();

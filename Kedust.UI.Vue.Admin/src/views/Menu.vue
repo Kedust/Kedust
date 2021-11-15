@@ -11,6 +11,7 @@
     <label for="name" class="active">Naam</label>
   </div>
   <h4>Keuzes</h4>
+  <input type="checkbox" title="test"/>
   <table>
     <thead>
     <tr>
@@ -18,6 +19,7 @@
       <th>Afbeelding</th>
       <th>Naam</th>
       <th>Omschrijving</th>
+      <th>Keuken</th>
       <th>Prijs</th>
       <th>
         <button class="btn waves-effect" @click="addItem"><i class="material-icons">add</i></button>
@@ -38,6 +40,10 @@
       </td>
       <td><input type="text" v-model="choice.name"/></td>
       <td><input type="text" v-model="choice.description"/></td>
+      <td>  <label>
+        <input type="checkbox" v-model="choice.isKitchen" />
+        <span></span>
+      </label></td>
       <td><input type="number" v-model="choice.price"/></td>
       <td>
         <button class="btn" @click="deleteItem(choice)"><i class="material-icons">delete</i></button>
@@ -76,6 +82,7 @@ export default {
         Gateway.Menu.get(id).then(value => {
           this.menu = value;
           this.sortItems();
+          console.log(value)
           this.originalMenu = JSON.parse(JSON.stringify(this.menu));
           this.setLoading(false);
         });

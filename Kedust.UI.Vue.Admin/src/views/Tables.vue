@@ -1,7 +1,5 @@
 <template>
 
-  <div class="section">
-
     <h1>Tafels</h1>
 
     <table class="striped responsive-table">
@@ -29,8 +27,6 @@
       </tr>
       </tbody>
     </table>
-
-  </div>
 
 </template>
 

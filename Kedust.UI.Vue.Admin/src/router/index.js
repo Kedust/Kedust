@@ -2,6 +2,7 @@ import {createWebHashHistory, createRouter} from 'vue-router'
 import Tables from '../views/Tables.vue'
 import Menus from "@/views/Menus";
 import Orders from "@/views/Orders";
+import Settings from "@/views/Settings";
 import Menu from "@/views/Menu";
 import Dashboard from "@/views/Dashboard";
 import Table from "@/views/Table";
@@ -17,6 +18,10 @@ const routes = [
     path: '/Orders',
     name: 'Orders',
     component: Orders
+  },{
+    path: '/Settings',
+    name: 'Settings',
+    component: Settings
   },{
     path: '/Tables',
     name: 'Tables',

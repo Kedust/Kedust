@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Kedust.Data.Dal.EfImplementation
 {
-    internal class OrderRepo : BaseRepo<Order, int>, Dal.IOrderRepo
+    internal class OrderRepo : BaseRepo<Order, int>, IOrderRepo
     {
         private DbSet<Order> OrderSet => Context.Orders;
 
@@ -29,7 +29,7 @@ namespace Kedust.Data.Dal.EfImplementation
             var query = OrderSet.AsQueryable();
             if (include != null)
                 query = include.Invoke(query);
-            return await query.Where(x => x.Status == OrderStatus.New).ToListAsync(token);
+            return await query.Where(x => x.Status == OrderStatus.New && x.TimeOrderPlaced < DateTime.Now.AddSeconds(-15)).ToListAsync(token);
         }
     }
 }
