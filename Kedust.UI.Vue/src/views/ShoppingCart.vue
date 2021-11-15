@@ -6,13 +6,7 @@
       <ShoppingCartChoice v-for="item in menu" :key="item.id" :item="item"/>
     </div>
 
-    <div class="total-row">
-      <span>Totaal</span>
-      <span>{{ itemCount }} stuks</span>
-      <span>{{ price }} €</span>
-    </div>
-
-    <div v-if="itemCount>0" class="button primary-bg" @click="Send">Verzenden</div>
+    <div v-if="itemCount>0" class="button primary-bg" @click="Send">Verzenden ({{ itemCount }} stuks voor {{ price }} vakjes)</div>
   </div>
 </template>
 
@@ -22,10 +16,6 @@
   margin: 1rem;
 }
 
-.total-row {
-  display: flex;
-  justify-content: space-between;
-}
 </style>
 
 <script>
@@ -37,6 +27,11 @@ import Materialize from "materialize-css";
 
 export default {
   name: 'ShoppingCart',
+  mounted() {
+    if(this.table === undefined){
+      this.$router.push({name: "Table"});
+    }
+  },
   components: {
     ShoppingCartChoice
   },
@@ -58,7 +53,7 @@ export default {
       itemCount: "getOrderCount",
       price: "getOrderPrice",
       table: "getTable",
-      tableId: "getTableId"
+      canOrder: "getCanOrder"
     })
   },
   methods: {
@@ -75,13 +70,13 @@ export default {
 
       let body = {
         orderItems: this.menu.map(mi => ({choiceId: mi.id, amount: mi.count})),
-        tableId: this.tableId
+        tableId: this.table.id
       };
 
       Gateway.Order.post(body).then(async (result) => {
             if (result) {
-              Gateway.Menu.getByTableCode(this.table).then((choices) => {
-                this.setMenu(choices);
+              Gateway.Menu.getById(this.table.menuId).then((menu) => {
+                this.setMenu(menu);
                 this.loading(false)
                 this.$router.push({name: 'ThankYou'});
               });

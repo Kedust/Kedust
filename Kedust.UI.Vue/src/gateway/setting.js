@@ -2,9 +2,11 @@ import axios from "axios";
 import appConfig from "@/config";
 
 export default {
-    name: "Order",
-    post(data) {
-        return axios.put(appConfig.api.domain + appConfig.api.order.post, data)
+    name: "Setting",
+    getByKey(key) {
+        let url = appConfig.api.domain + appConfig.api.setting.getByKey;
+        url = url.replace("{key}", key)
+        return axios.get(url)
             .then((response) => {
                 if(response.status === 204) return undefined;
                 return response.data;

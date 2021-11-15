@@ -3,7 +3,7 @@
     <div class="flex-container">
       <div>
         <span class="material-icons">table_bar</span>
-        <span>{{table}}</span>
+        <span v-if="table !== undefined">{{table.code}}</span>
       </div>
 
       <div>

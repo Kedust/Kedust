@@ -1,8 +1,8 @@
 <template>
   <div class="page">
-    <div class="row">
+    <div class="row" v-if="menu !== undefined">
       <TableButton/>
-      <ChoiceButton v-for="item in menu" :key="item.id" :item="item"/>
+      <ChoiceButton v-for="item in menu.choices" :key="item.id" :item="item"/>
     </div>
     <ShoppingCartButton v-if="itemCount>0"/>
   </div>
@@ -31,9 +31,9 @@ export default {
       table: "getTable"
     })
   },
-  mounted() {
+  async mounted() {
     if(this.table === undefined){
-      this.$router.push({name: "Table"});
+     await this.$router.push({name: "Table"});
     }
   },
   components: {ChoiceButton, ShoppingCartButton, TableButton}

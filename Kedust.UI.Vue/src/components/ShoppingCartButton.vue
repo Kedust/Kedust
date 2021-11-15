@@ -3,7 +3,7 @@
     <div class="flex-container">
       <span><i class="material-icons">shopping_cart</i></span>
       <span>{{itemCount}} stuks</span>
-      <span>{{price}} €</span>
+      <span>{{price}} vakjes</span>
     </div>
   </div>
 </template>

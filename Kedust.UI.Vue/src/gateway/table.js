@@ -3,10 +3,13 @@ import appConfig from "@/config";
 
 export default {
     name: "Table",
-    checkCode(tableCode) {
-        let url = appConfig.api.domain + appConfig.api.table.checkCode;
+    getByCode(tableCode) {
+        let url = appConfig.api.domain + appConfig.api.table.getByCode;
         url = url.replace("{tableCode}", tableCode)
         return axios.get(url)
-            .then((response) => response.data);
+            .then((response) => {
+                if(response.status === 204) return undefined;
+                return response.data;
+            });
     }
 }

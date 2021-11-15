@@ -2,7 +2,7 @@
   <div class="menu-item border" @click="selectMenuItem(item)">
     <div class="flex-container">
       <span class="name">{{ item.name }}</span>
-      <span class="price">{{ item.price.toFixed(2) }}</span>
+      <span class="price">{{ item.price }} vakjes</span>
     </div>
     <div class="flex-container">
       <span class="description">{{ item.description }}</span>

@@ -5,6 +5,7 @@ import Choice from "@/views/Choice";
 import ShoppingCart from "@/views/ShoppingCart";
 import ThankYou from "@/views/ThankYou";
 import SelectTable from "@/views/SelectTable";
+import NotAvailable from "@/views/NotAvailable";
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,11 @@ const routes = [
         name: 'TableUrl',
         path: '/Table/:code',
         component: SelectTable
+    },
+    {
+        name: 'NotAvailable',
+        path: '/NotAvailable',
+        component: NotAvailable
     }
 ];
 

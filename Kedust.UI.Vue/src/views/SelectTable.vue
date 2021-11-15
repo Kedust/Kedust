@@ -50,6 +50,7 @@ export default {
   computed: {
     ...mapGetters({
       table: "getTable",
+      canOrder: "getCanOrder",
       tableAvailable: "getTableAvailable"
     })
   },
@@ -62,9 +63,8 @@ export default {
   methods: {
     ...mapMutations({
       setTable: "setTable",
-      setTableId: "setTableId",
       setMenu: "setMenu",
-      loading: "setLoading"
+      loading: "setLoading",
     }),
     onDecode(data) {
       if (data.toLowerCase().startsWith("https://kedust.be/table/")) {
@@ -77,23 +77,24 @@ export default {
       this.setTableCode(this.input);
     },
     setTableCode(code) {
+      code = code.toLowerCase();
       this.loading(true);
-      Gateway.Table.checkCode(code)
+      Gateway.Table.getByCode(code)
           .then((response) => {
-                if (response !== 0) {
-                  this.setTableId(response);
-                  this.setTable(code);
-                  return Gateway.Menu.getByTableCode(code).then(async (choicesResult) => {
-                    this.setMenu(choicesResult)
+                if (response !== undefined) {
+                  this.setTable(response);
+                  return Gateway.Menu.getById(this.table.menuId).then(async (menu) => {
+                    this.setMenu(menu)
                     this.loading(false);
                     await this.$router.push({name: 'Menu'});
                   });
-                } else {
+                }
+                else{
                   Materialize.toast({html: "Sorry, die tafel vinden we niet terug...", classes: "toast-danger"});
                   this.loading(false);
                 }
               }
-          );
+          )
     },
   }
 }

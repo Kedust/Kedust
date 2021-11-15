@@ -5,35 +5,31 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        menu: [],
+        menu: undefined,
         currentMenuItem: {},
         table: undefined,
-        tableId: undefined,
-        loading: false
+        loading: false,
     },
     mutations: {
-        setTable(state, payload){
+        setTable(state, payload) {
             state.table = payload;
-        },
-        setTableId(state, payload){
-            state.tableId = payload
         },
         setLoading(state, payload) {
             state.loading = payload;
         },
         setMenu(state, payload) {
-            payload.forEach(x => x.count = 0);
+            payload.choices.forEach(x => x.count = 0);
             state.menu = payload;
         },
         setCurrentMenuItem(state, payload) {
             this.state.currentMenuItem = payload;
         },
         incrementOrderItem(state, id) {
-            let item = this.state.menu.find(x => x.id === id);
+            let item = this.state.menu.choices.find(x => x.id === id);
             item.count++;
         },
         decrementOrderItem(state, id) {
-            let item = this.state.menu.find(x => x.id === id);
+            let item = this.state.menu.choices.find(x => x.id === id);
             item.count--;
             if (item.count < 0) item.count = 0;
         },
@@ -50,26 +46,28 @@ const store = new Vuex.Store({
                 item.count--;
                 if (item.count < 0) item.count = 0;
             }
-        },
+        }
     },
     getters: {
         getLoading: state => state.loading,
         getMenu: state => state.menu,
         getCurrentMenuItem: state => state.currentMenuItem,
         getOrderCount: (state) => {
-            if (state.menu.length === 0) return 0;
+            if (state.menu === undefined || state.menu.choices === undefined || state.menu.choices.length === 0) return 0;
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
-            return state.menu.map(i => i.count).reduce(reducer);
+            return state.menu.choices.map(i => i.count).reduce(reducer);
         },
         getOrderPrice: (state) => {
-            if (state.menu.length === 0) return 0;
+            if (state.menu === undefined || state.menu.choices === undefined || state.menu.choices.length === 0) return 0;
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
-            return state.menu.map(i => i.count * i.price).reduce(reducer).toFixed(2);
+            return state.menu.choices.map(i => i.count * i.price).reduce(reducer);
         },
-        getOrderItems: state => state.menu.filter(i => i.count > 0),
+        getOrderItems: state => {
+            if (state.menu === undefined || state.menu.choices === undefined) return undefined;
+            return state.menu.choices.filter(i => i.count > 0)
+        },
         getTable: state => state.table,
-        getTableId: state => state.tableId,
-        getTableAvailable: state => state.table !== undefined
+        getTableAvailable: state => state.table !== undefined,
 }
 });
 
