@@ -26,7 +26,7 @@ namespace Kedust.UI.Api.Controllers
     public interface IPrintSignal
     {
         Task NotifyNewOrder(int orderId, CancellationToken token);
-        Task UpdatedCanOrder(CancellationToken token);
+        Task UpdatedCanOrder();
     }
 
     public class PrintSignal : IPrintSignal
@@ -37,7 +37,7 @@ namespace Kedust.UI.Api.Controllers
         public async Task NotifyNewOrder(int orderId, CancellationToken token)
             => await _printHub.Clients.All.SendAsync("NotifyNewOrder", orderId, token);
 
-        public async Task UpdatedCanOrder(CancellationToken token)
-            => await _printHub.Clients.All.SendAsync("updatedCanOrder", token);
+        public async Task UpdatedCanOrder()
+            => await _printHub.Clients.All.SendAsync("updatedCanOrder");
     }
 }

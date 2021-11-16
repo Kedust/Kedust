@@ -14,7 +14,8 @@ namespace Kedust.UI.Api.Controllers
         private readonly ISettingService _settingService;
         private readonly IPrintSignal _printSignal;
 
-        public SettingController(ILogger<SettingController> logger, ISettingService settingService, IPrintSignal printSignal)
+        public SettingController(ILogger<SettingController> logger, ISettingService settingService,
+            IPrintSignal printSignal)
         {
             _logger = logger;
             _settingService = settingService;
@@ -29,11 +30,11 @@ namespace Kedust.UI.Api.Controllers
             return NoContent();
         }
 
-        [HttpPost("Key/{key}")]
-        public async Task SetByKey(string key, string value, CancellationToken token)
+        [HttpGet("Key/{key}/{value}")]
+        public async Task SetByKey(string key, string value)
         {
             await _settingService.SetByKey(key, value);
-            await _printSignal.UpdatedCanOrder(token);
+            await _printSignal.UpdatedCanOrder();
         }
     }
 }

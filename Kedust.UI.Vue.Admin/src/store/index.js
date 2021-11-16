@@ -1,4 +1,5 @@
 import {createStore} from 'vuex'
+import Gateway from "@/gateway/index"
 
 export default createStore({
     state: {
@@ -9,7 +10,11 @@ export default createStore({
             state.loading = payload;
         }
     },
-    actions: {},
+    actions: {
+        setCanPlaceOrder: async (state, payload) => {
+            await Gateway.Setting.setCanPlaceOrder(payload);
+        }
+    },
     getters: {
         getLoading: state => state.loading
     },

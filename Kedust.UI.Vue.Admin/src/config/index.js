@@ -13,6 +13,9 @@ const config = {
             post: "/Table",
             get: "/Table/{id}",
             delete: "/Table/{id}"
+        },
+        setting:{
+            setSetting: "/Setting/Key/{key}/{value}"
         }
     }
 };

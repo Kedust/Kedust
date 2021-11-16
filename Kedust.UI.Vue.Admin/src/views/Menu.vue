@@ -144,5 +144,6 @@ export default {
 
 /deep/ .img {
   height: 5rem;
+  max-width: 5rem;
 }
 </style>

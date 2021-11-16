@@ -6,7 +6,9 @@
       <ShoppingCartChoice v-for="item in menu" :key="item.id" :item="item"/>
     </div>
 
-    <div v-if="itemCount>0" class="button primary-bg" @click="Send">Verzenden ({{ itemCount }} stuks voor {{ price }} vakjes)</div>
+    <div v-if="itemCount>0" class="button primary-bg" @click="Send">Verzenden ({{ itemCount }} stuks voor {{ price }}
+      vakjes)
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,7 @@ import Materialize from "materialize-css";
 export default {
   name: 'ShoppingCart',
   mounted() {
-    if(this.table === undefined){
+    if (this.table === undefined) {
       this.$router.push({name: "Table"});
     }
   },
@@ -53,7 +55,7 @@ export default {
       itemCount: "getOrderCount",
       price: "getOrderPrice",
       table: "getTable",
-      canOrder: "getCanOrder"
+      isOber: "getIsOber"
     })
   },
   methods: {
@@ -78,7 +80,10 @@ export default {
               Gateway.Menu.getById(this.table.menuId).then((menu) => {
                 this.setMenu(menu);
                 this.loading(false)
-                this.$router.push({name: 'ThankYou'});
+                if (this.isOber)
+                  this.$router.push({name: 'QuickSelectTable'});
+                else
+                  this.$router.push({name: 'ThankYou'});
               });
             } else {
               this.loading(false);

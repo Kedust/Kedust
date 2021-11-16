@@ -11,5 +11,14 @@ export default {
                 if(response.status === 204) return undefined;
                 return response.data;
             });
+    },
+    getByDescription(description) {
+        let url = appConfig.api.domain + appConfig.api.table.getByDescription;
+        url = url.replace("{tableDescription}", description)
+        return axios.get(url)
+            .then((response) => {
+                if(response.status === 204) return undefined;
+                return response.data;
+            });
     }
 }

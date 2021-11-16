@@ -9,16 +9,21 @@ const store = new Vuex.Store({
         currentMenuItem: {},
         table: undefined,
         loading: false,
+        isOber: false
     },
     mutations: {
         setTable(state, payload) {
             state.table = payload;
+        },
+        setIsOber(state, payload){
+            state.isOber = payload;
         },
         setLoading(state, payload) {
             state.loading = payload;
         },
         setMenu(state, payload) {
             payload.choices.forEach(x => x.count = 0);
+            payload.choices = payload.choices.sort((a, b) => (a.sorting > b.sorting) ? 1 : -1)
             state.menu = payload;
         },
         setCurrentMenuItem(state, payload) {
@@ -51,6 +56,7 @@ const store = new Vuex.Store({
     getters: {
         getLoading: state => state.loading,
         getMenu: state => state.menu,
+        getIsOber: state => state.isOber,
         getCurrentMenuItem: state => state.currentMenuItem,
         getOrderCount: (state) => {
             if (state.menu === undefined || state.menu.choices === undefined || state.menu.choices.length === 0) return 0;
