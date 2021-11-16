@@ -42,6 +42,7 @@ namespace Kedust.UI.PrinterService.Triggers
             {
                 if (task.IsFaulted)
                 {
+                    Console.WriteLine(task.Exception.Message);
                     Console.WriteLine("Connection failed");
                 }
             }, token);

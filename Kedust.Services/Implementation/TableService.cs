@@ -36,8 +36,13 @@ namespace Kedust.Services.Implementation
         
         public async Task<Table> GetByCode(string code)
         {
-            var menu = await _tableRepo.GetByCode(code, tables => tables.Include(t => t.Menu));
-            return _mapper.Map<Table>(menu);
+            var table = await _tableRepo.GetByCode(code, tables => tables.Include(t => t.Menu));
+            return _mapper.Map<Table>(table);
+        }
+        public async Task<Table> GetByDescription(string description)
+        {
+            var table = await _tableRepo.GetByDescription(description, tables => tables.Include(t => t.Menu));
+            return _mapper.Map<Table>(table);
         }
 
         public async Task<int> Save(Table request)

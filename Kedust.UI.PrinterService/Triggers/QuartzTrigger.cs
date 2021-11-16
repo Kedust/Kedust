@@ -54,13 +54,21 @@ namespace Kedust.UI.PrinterService.Triggers
 
         public async Task Execute(IJobExecutionContext context)
         {
-            var orders = await _orderServiceClient.GetAllOrders(context.CancellationToken);
-
-            foreach (var order in orders)
+            try
             {
-                OrderForPrinting markedOrder = await _orderServiceClient.GetOrder(order.Id, context.CancellationToken);
-                await _printService.PrintOrderTicket(markedOrder, _config);
-                await _orderServiceClient.SetPrinted(markedOrder.Id, context.CancellationToken);
+                var orders = await _orderServiceClient.GetAllOrders(context.CancellationToken);
+
+                foreach (var order in orders)
+                {
+                    OrderForPrinting markedOrder =
+                        await _orderServiceClient.GetOrder(order.Id, context.CancellationToken);
+                    await _printService.PrintOrderTicket(markedOrder, _config);
+                    await _orderServiceClient.SetPrinted(markedOrder.Id, context.CancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

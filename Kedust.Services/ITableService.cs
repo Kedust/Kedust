@@ -8,6 +8,7 @@ namespace Kedust.Services
     {
         Task<Table> GetById(int id);
         Task<Table> GetByCode(string code);
+        Task<Table> GetByDescription(string description);
         Task<IEnumerable<Table>> GetAll();
         Task<bool> Delete(int id);
         Task<int> Save(Table table);

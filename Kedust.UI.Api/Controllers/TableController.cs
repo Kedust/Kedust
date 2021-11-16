@@ -29,6 +29,9 @@ namespace Kedust.UI.Api.Controllers
         [HttpGet("Code/{tableCode}")]
         public Task<Table> GetByCode(string tableCode) => _tableService.GetByCode(tableCode);
         
+        [HttpGet("Description/{tableDescription}")]
+        public Task<Table> GetByDescription(string tableDescription) => _tableService.GetByDescription(tableDescription);
+
         [HttpPut]
         public async Task<int> Put(Table request) => await _tableService.Save(request);
 

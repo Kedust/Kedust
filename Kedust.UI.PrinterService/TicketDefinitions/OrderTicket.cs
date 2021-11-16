@@ -51,7 +51,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
                 .PrintText(order.Table.Description, FontTable, PrintDocumentWrapper.Alignment.Middle)
                 .NewLine()
                 //time
-                .PrintText(DateTime.Now.ToString("g"), FontOrderLines, PrintDocumentWrapper.Alignment.Middle)
+                .PrintText(order.TimeOrderPlaced.ToString("g"), FontOrderLines, PrintDocumentWrapper.Alignment.Middle)
                 .NewLine()
                 //title
                 .PrintText("#", FontOrderLinesHeader)

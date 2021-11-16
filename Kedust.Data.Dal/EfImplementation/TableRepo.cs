@@ -21,5 +21,13 @@ namespace Kedust.Data.Dal.EfImplementation
                 query = include.Invoke(query);
             return await query.FirstOrDefaultAsync(t => t.Code == code);
         }
+        public async Task<Table> GetByDescription(string description,
+            Func<IQueryable<Table>, IIncludableQueryable<Table, object>> include = null)
+        {
+            var query = Context.Tables.AsQueryable();
+            if (include != null)
+                query = include.Invoke(query);
+            return await query.SingleOrDefaultAsync(t => t.Description.Contains(description));
+        }
     }
 }
