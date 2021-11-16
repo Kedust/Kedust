@@ -49,12 +49,13 @@ namespace Kedust.UI.Api
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Kedust.UI.Api v1"));
-
+            // app.UseCors("CorsPolicy");
             app.UseCors(
                 options => options
-                    .AllowAnyOrigin()
+                    .WithOrigins("http://localhost:8080", "https://localhost:8081", "http://192.168.0.222:8080", "http://192.168.0.222:8081", "https://kedust.be", "https://admin.kedust.be", "http://kedust.be", "http://admin.kedust.be")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
+                    .AllowCredentials()
             );
             app.UseRouting();
 

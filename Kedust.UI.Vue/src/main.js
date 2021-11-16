@@ -19,7 +19,7 @@ new Vue({
             }
         });
         let connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:5001/PrintHub")
+            .withUrl("https://api.kedust.be/PrintHub")
             .build();
         await connection.start();
         connection.on('updatedCanOrder', async () => {
