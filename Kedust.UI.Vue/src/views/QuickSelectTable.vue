@@ -53,7 +53,7 @@ export default {
   methods: {
     ...mapMutations({
       setTable: "setTable",
-      setIsOber: "setIsOber",
+      setIsWaiter: "setIsWaiter",
       setMenu: "setMenu",
       loading: "setLoading",
     }),
@@ -69,7 +69,7 @@ export default {
                 if (response !== undefined) {
                   this.setTable(response);
                   return Gateway.Menu.getById(this.table.menuId).then(async (menu) => {
-                    this.setIsOber(true);
+                    this.setIsWaiter(true);
                     this.setMenu(menu);
                     this.loading(false);
                     await this.$router.push({name: 'Menu'});

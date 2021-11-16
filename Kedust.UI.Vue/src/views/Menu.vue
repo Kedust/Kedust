@@ -28,10 +28,14 @@ export default {
     ...mapGetters({
       menu : "getMenu",
       itemCount: "getOrderCount",
-      table: "getTable"
+      table: "getTable",
+      canOrder: "getCanPlaceOrder"
     })
   },
   async mounted() {
+    if(!this.canOrder){
+      await this.$router.push({name: "NotAvailable"})
+    }
     if(this.table === undefined){
      await this.$router.push({name: "Table"});
     }

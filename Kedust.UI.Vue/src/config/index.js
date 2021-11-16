@@ -10,6 +10,9 @@ const config = {
         },
         order:{
             post : "/Order"
+        },
+        settings:{
+            getByKey : "/Setting/Key/{key}"
         }
     }
 };

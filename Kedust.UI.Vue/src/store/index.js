@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import Gateway from "@/gateway/index"
 
 Vue.use(Vuex);
 
@@ -9,14 +10,24 @@ const store = new Vuex.Store({
         currentMenuItem: {},
         table: undefined,
         loading: false,
-        isOber: false
+        isWaiter: false,
+        canPlaceOrder: true
+    },
+    actions: {
+        async fetchCanPlaceOrder() {
+            let response = await Gateway.Setting.getByKey("CanPlaceOrder");
+            await this.commit("setCanPlaceOrder", response === "True");
+        }
     },
     mutations: {
+        setCanPlaceOrder(state, payload){
+            state.canPlaceOrder = payload;
+        },
         setTable(state, payload) {
             state.table = payload;
         },
-        setIsOber(state, payload){
-            state.isOber = payload;
+        setIsWaiter(state, payload) {
+            state.isWaiter = payload;
         },
         setLoading(state, payload) {
             state.loading = payload;
@@ -56,7 +67,7 @@ const store = new Vuex.Store({
     getters: {
         getLoading: state => state.loading,
         getMenu: state => state.menu,
-        getIsOber: state => state.isOber,
+        getIsWaiter: state => state.isWaiter,
         getCurrentMenuItem: state => state.currentMenuItem,
         getOrderCount: (state) => {
             if (state.menu === undefined || state.menu.choices === undefined || state.menu.choices.length === 0) return 0;
@@ -74,7 +85,8 @@ const store = new Vuex.Store({
         },
         getTable: state => state.table,
         getTableAvailable: state => state.table !== undefined,
-}
+        getCanPlaceOrder: state => state.canPlaceOrder
+    }
 });
 
 export default store;

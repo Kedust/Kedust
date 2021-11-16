@@ -50,11 +50,14 @@ export default {
   computed: {
     ...mapGetters({
       table: "getTable",
-      canOrder: "getCanOrder",
+      canOrder: "getCanPlaceOrder",
       tableAvailable: "getTableAvailable"
     })
   },
   async mounted() {
+    if(!this.canOrder){
+      await this.$router.push({name: "NotAvailable"})
+    }
     const table = this.$route.params.code;
     if (table !== undefined) {
       await this.setTableCode(table);

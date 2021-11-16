@@ -29,9 +29,12 @@ import Materialize from "materialize-css";
 
 export default {
   name: 'ShoppingCart',
-  mounted() {
+  async mounted() {
+    if(!this.canOrder){
+      await this.$router.push({name: "NotAvailable"})
+    }
     if (this.table === undefined) {
-      this.$router.push({name: "Table"});
+      await this.$router.push({name: "Table"});
     }
   },
   components: {
@@ -55,7 +58,8 @@ export default {
       itemCount: "getOrderCount",
       price: "getOrderPrice",
       table: "getTable",
-      isOber: "getIsOber"
+      isWaiter: "getIsWaiter",
+      canOrder: "getCanPlaceOrder"
     })
   },
   methods: {
@@ -80,7 +84,7 @@ export default {
               Gateway.Menu.getById(this.table.menuId).then((menu) => {
                 this.setMenu(menu);
                 this.loading(false)
-                if (this.isOber)
+                if (this.isWaiter)
                   this.$router.push({name: 'QuickSelectTable'});
                 else
                   this.$router.push({name: 'ThankYou'});

@@ -81,14 +81,18 @@ export default {
       image: String
     }
   },
-  mounted() {
+  async mounted() {
+    if(!this.canOrder){
+      await this.$router.push({name: "NotAvailable"})
+    }
     if(this.currentMenuItem.id === undefined){
-      this.$router.push({name: "Menu"});
+      await this.$router.push({name: "Menu"});
     }
   },
   computed: {
     ...mapGetters(
         {
+          canOrder: "getCanPlaceOrder",
           currentMenuItem: "getCurrentMenuItem",
         }
     )

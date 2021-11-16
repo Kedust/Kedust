@@ -4,7 +4,7 @@ import appConfig from "@/config";
 export default {
     name: "Setting",
     getByKey(key) {
-        let url = appConfig.api.domain + appConfig.api.setting.getByKey;
+        let url = appConfig.api.domain + appConfig.api.settings.getByKey;
         url = url.replace("{key}", key)
         return axios.get(url)
             .then((response) => {
