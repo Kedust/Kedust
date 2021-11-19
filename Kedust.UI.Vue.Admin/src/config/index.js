@@ -16,7 +16,10 @@ const config = {
         },
         setting:{
             setSetting: "/Setting/Key/{key}/{value}"
-        }
+        },
+        order: {
+            getAll: "/Order",
+        },
     }
 };
 

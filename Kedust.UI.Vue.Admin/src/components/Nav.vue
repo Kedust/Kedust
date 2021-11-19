@@ -11,6 +11,9 @@
             <RouterLink :to="{name:'Tables'}" tag="a">Tafels</RouterLink>
           </li>
           <li>
+            <RouterLink :to="{name:'Orders'}" tag="a">Bestellingen</RouterLink>
+          </li>
+          <li>
             <RouterLink :to="{name:'Settings'}" tag="a">Instellingen</RouterLink>
           </li>
         </ul>
@@ -21,6 +24,9 @@
           </li>
           <li>
             <RouterLink :to="{name:'Tables'}" tag="a">Tafels</RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{name:'Orders'}" tag="a">Bestellingen</RouterLink>
           </li>
           <li>
             <RouterLink :to="{name:'Settings'}" tag="a">Instellingen</RouterLink>
