@@ -23,6 +23,15 @@ namespace Kedust.Data.Dal.EfImplementation
             return await Context.SaveChangesAsync() > 0;
         }
 
+        public async Task<List<Order>> GetAll(DateTime from, DateTime till, CancellationToken token,
+            Func<IQueryable<Order>, IIncludableQueryable<Order, object>> include = null)
+        {
+            var query = OrderSet.AsQueryable();
+            if (include != null)
+                query = include.Invoke(query);
+            return await query.Where(x => x.TimeOrderPlaced > from && x.TimeOrderPlaced < till).ToListAsync(token);
+        }
+
         public async Task<List<Order>> GetAllForPrinting(CancellationToken token,
             Func<IQueryable<Order>, IIncludableQueryable<Order, object>> include = null)
         {

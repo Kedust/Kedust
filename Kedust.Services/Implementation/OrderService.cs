@@ -60,5 +60,13 @@ namespace Kedust.Services.Implementation
             order.Status = OrderStatus.Completed;
             await _orderRepo.Update(order);
         }
+
+        public async Task<List<OrderForPrinting>> GetAll(DateTime from, DateTime till, CancellationToken token)
+        {
+            return _mapper.Map<List<OrderForPrinting>>(await _orderRepo.GetAll(from, till, token, order => order
+                .Include(o => o.Table)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Choice)));
+        }
     }
 }

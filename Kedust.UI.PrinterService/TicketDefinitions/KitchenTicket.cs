@@ -13,12 +13,13 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
     public class KitchenTicket
     {
         private Font FontTable = new Font("Arial", 15);
-        private Font FontOrderLines = new Font("Arial", 10);
-        private Font FontOrderLinesHeader = new Font("Arial", 10, FontStyle.Bold);
+        private Font FontOrderLines = new Font("Arial", 12);
+        private Font FontOrderLinesHeader = new Font("Arial", 12, FontStyle.Bold);
 
         public void Print(string printerName, OrderForPrinting order)
         {
-            if(!order.OrderItems.Any(x => x.IsKitchen)) return;
+            if (!order.OrderItems.Any(x => x.IsKitchen)) return;
+            if (order.OrderItems.All(x => x.IsKitchen)) return;
             PrinterSettings printer = new PrinterSettings
             {
                 PrinterName = printerName
@@ -34,7 +35,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
         {
             if (eventArgs.Graphics == null) return;
 
-            var padding = eventArgs.Graphics.MeasureString("00000", FontOrderLines);
+            var padding = eventArgs.Graphics.MeasureString("000", FontOrderLines);
 
             PrintDocumentWrapper wrapper = new PrintDocumentWrapper(eventArgs);
             //header
@@ -64,10 +65,11 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
             order.OrderItems.Where(oi => oi.IsKitchen).ToList().ForEach(oi =>
             {
                 wrapper
-                    .PrintText(oi.Amount.ToString(), FontOrderLines)
+                    .PrintText(oi.Amount.ToString("N0"), FontOrderLines)
                     .PrintText(oi.Name, FontOrderLines, padding: padding.Width)
                     .NewLine();
             });
+            wrapper.NewLine(20).PrintText("Smakelijk", FontOrderLinesHeader, PrintDocumentWrapper.Alignment.Middle);
         }
     }
 }

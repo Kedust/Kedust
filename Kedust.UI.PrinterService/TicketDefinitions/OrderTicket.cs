@@ -33,7 +33,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
         {
             if (eventArgs.Graphics == null) return;
 
-            var padding = eventArgs.Graphics.MeasureString("00000", FontOrderLines);
+            var padding = eventArgs.Graphics.MeasureString("0000", FontOrderLines);
 
             PrintDocumentWrapper wrapper = new PrintDocumentWrapper(eventArgs);
             //header
@@ -41,11 +41,12 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
             Stream myStream = myAssembly.GetManifestResourceStream("Kedust.UI.PrinterService.img.kedust-full.jpg");
             Image image = Image.FromStream(myStream);
             var size = image.ResizeImage(75, wrapper.Width);
+            string title = order.OrderItems.All(o => o.IsKitchen) ? "Bestelling EN KEUKEN" : "Bestelling";
             wrapper
                 .PrintImage(image, PrintDocumentWrapper.Alignment.Middle, size.width, size.height)
                 .NewLine(10)
                 //type ticket
-                .PrintText("Bestelling", FontTable, PrintDocumentWrapper.Alignment.Middle)
+                .PrintText(title, FontTable, PrintDocumentWrapper.Alignment.Middle)
                 .NewLine()
                 //table
                 .PrintText(order.Table.Description, FontTable, PrintDocumentWrapper.Alignment.Middle)
@@ -56,7 +57,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
                 //title
                 .PrintText("#", FontOrderLinesHeader)
                 .PrintText("Item", FontOrderLinesHeader, padding: padding.Width)
-                .PrintText("Prijs", FontOrderLinesHeader, PrintDocumentWrapper.Alignment.Right)
+                .PrintText("Vakjes", FontOrderLinesHeader, PrintDocumentWrapper.Alignment.Right)
                 .NewLine()
                 .PrintLine();
 
@@ -65,7 +66,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
                 wrapper
                     .PrintText(oi.Amount.ToString(), FontOrderLines)
                     .PrintText(oi.Name, FontOrderLines, padding: padding.Width)
-                    .PrintText(oi.Price.ToString(CultureInfo.InvariantCulture), FontOrderLines,
+                    .PrintText((oi.Amount * oi.Price).ToString("N0"), FontOrderLines,
                         PrintDocumentWrapper.Alignment.Right)
                     .NewLine();
             });
@@ -73,7 +74,7 @@ namespace Kedust.UI.PrinterService.TicketDefinitions
             wrapper
                 .PrintLine()
                 .PrintText("Totaal", FontOrderLinesHeader)
-                .PrintText(text: order.OrderItems.Sum(x => x.Price * x.Amount).ToString(CultureInfo.InvariantCulture),
+                .PrintText(text: order.OrderItems.Sum(x => x.Price * x.Amount).ToString("N0"),
                     FontOrderLinesHeader,
                     PrintDocumentWrapper.Alignment.Right)
                 .NewLine(20)

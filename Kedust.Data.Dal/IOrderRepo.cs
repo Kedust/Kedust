@@ -14,5 +14,7 @@ namespace Kedust.Data.Dal
 
         Task<List<Order>> GetAllForPrinting(CancellationToken token,
             Func<IQueryable<Order>, IIncludableQueryable<Order, object>> include = null);
+        Task<List<Order>> GetAll(DateTime from, DateTime till, CancellationToken token,
+            Func<IQueryable<Order>, IIncludableQueryable<Order, object>> include = null);
     }
 }

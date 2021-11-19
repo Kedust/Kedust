@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Kedust.Services;
@@ -23,6 +24,10 @@ namespace Kedust.UI.Api.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet]
+        public Task<List<OrderForPrinting>> GetAll(DateTime from, DateTime till, CancellationToken token) =>
+            _orderService.GetAll(from, till, token);
+        
         [HttpPut]
         public async Task<IActionResult> Put(OrderForSaving order, CancellationToken token)
         {

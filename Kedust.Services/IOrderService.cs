@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Kedust.Services.DTO;
@@ -11,5 +12,6 @@ namespace Kedust.Services
         Task<OrderForPrinting> GetByIdForPrinting(int id, CancellationToken token);
         Task<List<OrderForPrinting>> GetAllForPrinting(CancellationToken token);
         Task MarkPrinted(int id, CancellationToken token);
+        Task<List<OrderForPrinting>> GetAll(DateTime from, DateTime till, CancellationToken token);
     }
 }
