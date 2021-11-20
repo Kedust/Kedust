@@ -3,12 +3,12 @@
     <div class="flex-container">
       <div>
         <span class="material-icons">table_bar</span>
-        <span v-if="table !== undefined">{{table.code}}</span>
+        <span v-if="table !== undefined">{{ table.code }}</span>
       </div>
 
       <div>
         <span>
-          <i class="material-icons" @click="goTo('Table')">edit</i>
+          <i class="material-icons" @click="goTo">edit</i>
         </span>
       </div>
     </div>
@@ -23,16 +23,20 @@ export default {
   computed: {
     ...mapGetters({
       table: "getTable",
+      isWaiter: "getIsWaiter"
     })
   },
   methods: {
-    async goTo(name) {
-      await this.$router.push({name});
+    async goTo() {
+      if (this.isWaiter) {
+        await this.$router.push({name: 'QuickSelectTable'});
+      } else {
+        await this.$router.push({name: 'Table'});
+      }
     },
   }
 }
 </script>
-
 
 
 <style scoped>
@@ -41,7 +45,7 @@ export default {
   justify-content: space-between;
 }
 
-.material-icons{
+.material-icons {
   vertical-align: top;
 }
 
