@@ -7,17 +7,17 @@
         <input id="dateFrom" type="text" v-model.lazy="this.dateFrom" class="datepicker">
       </div>
       <div class="col s6 input-field">
-        <label for="TimeFrom">Vanaf datum</label>
+        <label for="TimeFrom">Vanaf tijd</label>
         <input id="TimeFrom" type="text" v-model.lazy="this.timeFrom" class="timepicker">
       </div>
     </div>
     <div class="row">
       <div class="col s6 input-field">
-        <label for="dateTill">Vanaf datum</label>
+        <label for="dateTill">Tot datum</label>
         <input id="dateTill" type="text" v-model.lazy="this.dateTill" class="datepicker">
       </div>
       <div class="col s6 input-field">
-        <label for="timeTill">Vanaf datum</label>
+        <label for="timeTill">Tot tijd</label>
         <input id="timeTill" type="text" v-model.lazy="this.timeTill" class="timepicker">
       </div>
     </div>
@@ -62,8 +62,8 @@ export default {
     return {
       dateFrom: Moment(new Date()).format("MMM DD, YYYY"),
       dateTill: Moment(new Date()).format("MMM DD, YYYY"),
-      timeFrom: Moment(new Date()).format("hh:mm A"),
-      timeTill: Moment(new Date()).subtract(15, "minutes").format("hh:mm A"),
+      timeFrom: Moment(new Date()).subtract(15, "minutes").format("hh:mm A"),
+      timeTill: Moment(new Date()).format("hh:mm A"),
       orders: []
     }
   },
@@ -89,8 +89,8 @@ export default {
     update15(){
       this.dateFrom= Moment(new Date()).format("MMM DD, YYYY");
       this.dateTill= Moment(new Date()).format("MMM DD, YYYY");
-      this.timeFrom= Moment(new Date()).format("hh:mm A");
-      this.timeTill= Moment(new Date()).subtract(15, "minutes").format("hh:mm A");
+      this.timeFrom= Moment(new Date()).subtract(15, "minutes").format("hh:mm A");
+      this.timeTill= Moment(new Date()).format("hh:mm A");
       this.update();
     },
     update() {
